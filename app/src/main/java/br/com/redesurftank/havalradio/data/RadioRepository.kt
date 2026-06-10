@@ -4,39 +4,51 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import com.beantechs.intelligentvehiclecontrol.sdk.IListener
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.Executors
 
 /**
- * Camada de dados do rádio. Conecta no veículo via [VehicleClient], faz a leitura inicial e
- * mantém um mapa observável (Compose) das chaves sys.radio.*.
+ * Camada de dados do rádio: conecta no veículo via [VehicleClient], mantém o estado reativo
+ * (observável pelo Compose) e expõe as ações de controle.
  *
- * Nesta v0 ele também funciona como MONITOR DE RECON: mostra os valores ao vivo e os registra
- * em logcat (tag [RECON_TAG]) + exporta um snapshot em arquivo, para mapearmos os formatos reais
- * no carro antes de montar a UI final.
- *
- * Como capturar (do PC, via ADB):
- *   adb logcat -s HavalRadioRecon          → acompanha as mudanças ao vivo
- *   adb pull <caminho mostrado no Exportar> → baixa o snapshot .txt
+ * Modelo confirmado por recon (ver doc FM-Radio / Recon 2026-06-10).
  */
 object RadioRepository {
+    private const val TAG = "HavalRadio"
     private const val RECON_TAG = "HavalRadioRecon"
     private val main = Handler(Looper.getMainLooper())
+    private val io = Executors.newSingleThreadExecutor()
 
-    /** Valores ao vivo das chaves sys.radio.* (observável pelo Compose). */
-    val values = mutableStateMapOf<String, String>()
+    // ---- estado observável ----
     val connected = mutableStateOf(false)
+    val station = mutableStateOf<Station?>(null)
+    val playing = mutableStateOf(false)
+    val searching = mutableStateOf(false)
+    val searchProgress = mutableStateOf(0)
+    val volume = mutableStateOf(0)
+    val volumeMax = mutableStateOf(30)
+    val favoritesFm = mutableStateListOf<Int>()
+    val favoritesAm = mutableStateListOf<Int>()
+    val foundFm = mutableStateListOf<Int>()
+    val foundAm = mutableStateListOf<Int>()
+
+    private val lastFreq = mutableMapOf(Band.FM to 87_900, Band.AM to 530)
+
+    val band: Band get() = station.value?.band ?: Band.FM
+    fun favorites(): List<Int> = if (band == Band.AM) favoritesAm else favoritesFm
+    fun found(): List<Int> = if (band == Band.AM) foundAm else foundFm
 
     private val listener = object : IListener.Stub() {
         override fun onDataChanged(key: String?, value: String?) {
             if (key == null) return
             Log.i(RECON_TAG, "CHANGE $key = $value")
-            main.post { values[key] = value ?: "" }
+            main.post { apply(key, value) }
         }
     }
 
@@ -49,29 +61,90 @@ object RadioRepository {
         RadioKeys.ALL.forEach { k ->
             val v = VehicleClient.getData(k)
             Log.i(RECON_TAG, "INIT $k = $v")
-            if (v != null) main.post { values[k] = v }
+            if (v != null) main.post { apply(k, v) }
         }
         VehicleClient.registerListener(RadioKeys.ALL, listener)
     }
 
     fun stop() = VehicleClient.unregisterListener(listener)
 
-    /** Grava um snapshot dos valores atuais num .txt na pasta externa do app. Retorna o caminho. */
+    /** Atualiza o estado a partir de uma chave/valor (sempre na main thread). */
+    private fun apply(key: String, value: String?) {
+        when (key) {
+            RadioKeys.CUR_CHANNEL_INFO -> RadioCodec.parseChannel(value)?.let { s ->
+                station.value = s
+                playing.value = s.playing
+                lastFreq[s.band] = s.freqKHz
+            }
+            RadioKeys.PLAY_STATE -> playing.value = value?.trim() == "1"
+            RadioKeys.SEARCH_STATE -> searching.value = value?.trim() == "1"
+            RadioKeys.SEARCH_PROGRESS -> searchProgress.value = value?.trim()?.toIntOrNull() ?: 0
+            RadioKeys.FM_FAVORITES -> replace(favoritesFm, RadioCodec.parseStationList(value))
+            RadioKeys.AM_FAVORITES -> replace(favoritesAm, RadioCodec.parseStationList(value))
+            RadioKeys.FM_VALID -> replace(foundFm, RadioCodec.parseStationList(value))
+            RadioKeys.AM_VALID -> replace(foundAm, RadioCodec.parseStationList(value))
+            RadioKeys.MEDIA_VOLUME -> value?.trim()?.toIntOrNull()?.let { volume.value = it }
+            RadioKeys.MEDIA_VOLUME_RANGE -> parseMax(value)?.let { volumeMax.value = it }
+        }
+    }
+
+    private fun replace(list: MutableList<Int>, values: List<Int>) {
+        list.clear(); list.addAll(values)
+    }
+
+    /** O range pode vir como "30" ou "0,30"/"{0,30}". Pega o maior. */
+    private fun parseMax(raw: String?): Int? =
+        RadioCodec.parseStationList(raw).maxOrNull() ?: raw?.trim()?.toIntOrNull()
+
+    // ---- ações de controle (escrevem via Beantechs) ----
+    fun tune(freqKHz: Int, b: Band = band) = io.execute {
+        VehicleClient.set(RadioKeys.CUR_CHANNEL_INFO, RadioCodec.tuneValue(freqKHz, b))
+    }
+
+    fun togglePlay() = io.execute {
+        VehicleClient.set(RadioKeys.PLAY_STATE, if (playing.value) "0" else "1")
+    }
+
+    fun setBand(target: Band) {
+        if (target == band) return
+        tune(lastFreq[target] ?: target.min, target)
+    }
+
+    fun seek(dir: Int) {
+        val s = station.value ?: return
+        var f = s.freqKHz + dir * s.band.step
+        if (f > s.band.max) f = s.band.min
+        if (f < s.band.min) f = s.band.max
+        tune(f, s.band)
+    }
+
+    fun startScan() = io.execute { VehicleClient.set(RadioKeys.SEARCH_STATE, "1") }
+
+    fun setVolume(v: Int) {
+        val clamped = v.coerceIn(0, volumeMax.value)
+        volume.value = clamped
+        io.execute { VehicleClient.set(RadioKeys.MEDIA_VOLUME, clamped.toString()) }
+    }
+
+    fun favoriteCurrent() = io.execute {
+        // A ação de escrita exata ainda será confirmada no carro (ver recon).
+        VehicleClient.set(RadioKeys.FAVORITE_ACTION, "1")
+    }
+
+    fun isFavorite(freqKHz: Int): Boolean = favorites().contains(freqKHz)
+
+    // ---- recon: exportar snapshot ----
     fun exportSnapshot(context: Context): String? = runCatching {
         val dir = context.getExternalFilesDir(null) ?: context.filesDir
         val ts = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(Date())
         val f = File(dir, "recon-$ts.txt")
         f.writeText(buildString {
-            appendLine("# Haval Radio — recon sys.radio.* — $ts")
-            appendLine("# conectado=${connected.value}")
-            appendLine()
-            RadioKeys.ALL.forEach { k -> appendLine("$k = ${values[k] ?: "—"}") }
+            appendLine("# Haval Radio — snapshot $ts (conectado=${connected.value})")
+            appendLine("station=${station.value}  playing=${playing.value}  vol=${volume.value}/${volumeMax.value}")
+            appendLine("fav_fm=$favoritesFm")
+            appendLine("fav_am=$favoritesAm")
         })
-        Log.i(RECON_TAG, "Snapshot exportado: ${f.absolutePath}")
+        Log.i(RECON_TAG, "Snapshot: ${f.absolutePath}")
         f.absolutePath
-    }.onFailure { Log.e(RECON_TAG, "Falha ao exportar snapshot", it) }.getOrNull()
-
-    // Ações de controle — valores ainda a confirmar no recon (ver projeto FM-Radio no Obsidian).
-    fun sendPlayControl(value: String) = VehicleClient.set(RadioKeys.PLAY_CONTROL_ACTION, value)
-    fun toggleFavoriteCurrent(value: String) = VehicleClient.set(RadioKeys.FAVORITE_CUR_STATION_ACTION, value)
+    }.onFailure { Log.e(RECON_TAG, "export falhou", it) }.getOrNull()
 }
