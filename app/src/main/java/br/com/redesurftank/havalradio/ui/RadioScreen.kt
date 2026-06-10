@@ -35,7 +35,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.redesurftank.havalradio.data.Band
 import br.com.redesurftank.havalradio.data.RadioRepository
+import br.com.redesurftank.havalradio.update.UpdateManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +62,7 @@ fun RadioScreen() {
     val vol = RadioRepository.volume.value
     val volMax = RadioRepository.volumeMax.value
     val favs = RadioRepository.favorites()
+    var showAbout by remember { mutableStateOf(false) }
 
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Row(Modifier.fillMaxSize().padding(20.dp), horizontalArrangement = Arrangement.spacedBy(20.dp)) {
@@ -150,11 +157,15 @@ fun RadioScreen() {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text("Favoritos", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                     Spacer(Modifier.weight(1f))
+                    TextButton(onClick = { showAbout = true }) {
+                        Text("v${UpdateManager.currentVersion}")
+                    }
                     IconButton(onClick = { RadioRepository.favoriteCurrent() }) {
                         val isFav = st != null && RadioRepository.isFavorite(st.freqKHz)
                         Icon(if (isFav) Icons.Filled.Star else Icons.Filled.StarBorder, "Favoritar atual")
                     }
                 }
+                if (showAbout) AboutDialog(onDismiss = { showAbout = false })
                 Spacer(Modifier.height(8.dp))
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(favs) { freq ->
