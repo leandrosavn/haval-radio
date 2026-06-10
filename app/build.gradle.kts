@@ -40,6 +40,12 @@ android {
         }
     }
 
+    lint {
+        // App é sideload na central (não Google Play) e PRECISA targetar a API 28 do veículo.
+        disable += "ExpiredTargetSdkVersion"
+        abortOnError = false
+    }
+
     buildFeatures {
         compose = true
         aidl = true
