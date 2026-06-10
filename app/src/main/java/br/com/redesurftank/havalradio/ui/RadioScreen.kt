@@ -15,8 +15,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +32,7 @@ import br.com.redesurftank.havalradio.data.RadioRepository
  */
 @Composable
 fun RadioScreen() {
+    val context = LocalContext.current
     val values = RadioRepository.values
     val connected = RadioRepository.connected.value
     val cur = values[RadioKeys.CUR_CHANNEL_INFO] ?: "—"
@@ -52,6 +55,14 @@ fun RadioScreen() {
                 // TODO: trocar os valores pelos reais após o recon (sys.radio.play_control_action)
                 Button(onClick = { RadioRepository.sendPlayControl("seek_down") }) { Text("⏮ Anterior") }
                 Button(onClick = { RadioRepository.sendPlayControl("seek_up") }) { Text("Próxima ⏭") }
+                Button(onClick = {
+                    val path = RadioRepository.exportSnapshot(context)
+                    Toast.makeText(
+                        context,
+                        path?.let { "Salvo em: $it" } ?: "Falha ao exportar",
+                        Toast.LENGTH_LONG,
+                    ).show()
+                }) { Text("Exportar recon") }
             }
 
             Spacer(Modifier.height(24.dp))

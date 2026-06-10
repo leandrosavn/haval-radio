@@ -50,6 +50,22 @@ HiddenApiBypass) → `ShizukuBinderWrapper` → `IIntelligentVehicleControlServi
 ```
 Ou abrir no Android Studio.
 
+## Como capturar o recon (e enviar os dados)
+
+A tela v0 lê todas as `sys.radio.*` ao vivo. Para extrair os valores:
+
+**Via logcat (recomendado)** — do PC, com ADB conectado na central (porta 5555):
+```bash
+adb logcat -s HavalRadioRecon
+```
+Abra o app, opere o rádio (trocar estação, seek, favoritar) e copie a saída. Linhas:
+`INIT <chave> = <valor>` (leitura inicial) e `CHANGE <chave> = <valor>` (mudanças ao vivo).
+
+**Via arquivo** — toque em **Exportar recon** no app (mostra o caminho no Toast), depois:
+```bash
+adb pull /sdcard/Android/data/br.com.redesurftank.havalradio/files/recon-AAAAMMDD-HHMMSS.txt
+```
+
 ## Roadmap
 
 - [x] Bootstrap (projeto, Shizuku, AIDL, data layer, monitor de recon)
