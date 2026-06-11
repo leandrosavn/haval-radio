@@ -54,10 +54,7 @@ fun EqDialog(onDismiss: () -> Unit) {
 
                 Sep()
                 Text("EFEITOS", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = UiKit.Muted2)
-                ToggleRow("Surround", SoundController.surround.value) { SoundController.setSurround(it) }
                 ToggleRow("DTS", SoundController.dts.value) { SoundController.setDts(it) }
-                ToggleRow("Acústica do sistema", SoundController.acoustics.value) { SoundController.setAcoustics(it) }
-                ToggleRow("ANC", SoundController.anc.value) { SoundController.setAnc(it) }
             }
         },
         confirmButton = { TextButton(onClick = onDismiss) { Text("Fechar") } },

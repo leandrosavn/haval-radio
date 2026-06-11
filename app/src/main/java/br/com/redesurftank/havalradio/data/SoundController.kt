@@ -19,10 +19,7 @@ object SoundController {
     private const val EQ_RANGE = "sys.settings.audio.eq_value_range"
     private const val FIELD = "sys.settings.audio.sound_field_value"
     private const val FIELD_RANGE = "sys.settings.audio.sound_field_value_range"
-    private const val SURROUND = "sys.settings.audio.sound_surround_enable"
     private const val DTS = "sys.settings.audio.sound_effect_dts_state"
-    private const val ACOUSTICS = "sys.settings.audio.system_acoustics_enable"
-    private const val ANC = "sys.settings.audio.anc_enable"
 
     private val io = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())
@@ -35,10 +32,7 @@ object SoundController {
     val fieldX = mutableStateOf(0)   // balanço (esq–dir)
     val fieldY = mutableStateOf(0)   // fade (trás–frente)
     val fieldRange = mutableStateOf(10)
-    val surround = mutableStateOf(false)
     val dts = mutableStateOf(false)
-    val acoustics = mutableStateOf(false)
-    val anc = mutableStateOf(false)
     val loaded = mutableStateOf(false)
 
     /** Lê todos os valores do veículo (IPC off-main). Chamar ao abrir o painel. */
@@ -46,14 +40,13 @@ object SoundController {
         val b = readInt(EQ_BASS); val m = readInt(EQ_MID); val t = readInt(EQ_TREBLE)
         val r = readInt(EQ_RANGE)
         val f = readPair(FIELD); val fr = readPair(FIELD_RANGE)
-        val sur = readBool(SURROUND); val d = readBool(DTS); val ac = readBool(ACOUSTICS); val an = readBool(ANC)
+        val d = readBool(DTS)
         main.post {
             b?.let { bass.value = it }; m?.let { mid.value = it }; t?.let { treble.value = it }
             r?.let { eqRange.value = it.coerceAtLeast(1) }
             f?.let { fieldX.value = it.first; fieldY.value = it.second }
             fr?.let { fieldRange.value = maxOf(it.first, it.second).coerceAtLeast(1) }
-            sur?.let { surround.value = it }; d?.let { dts.value = it }
-            ac?.let { acoustics.value = it }; an?.let { anc.value = it }
+            d?.let { dts.value = it }
             loaded.value = true
         }
     }
@@ -77,10 +70,7 @@ object SoundController {
         write(FIELD, "{$cx,$cy}")
     }
 
-    fun setSurround(on: Boolean) = setBoolKey(SURROUND, surround, on)
     fun setDts(on: Boolean) = setBoolKey(DTS, dts, on)
-    fun setAcoustics(on: Boolean) = setBoolKey(ACOUSTICS, acoustics, on)
-    fun setAnc(on: Boolean) = setBoolKey(ANC, anc, on)
 
     private fun setBoolKey(key: String, state: androidx.compose.runtime.MutableState<Boolean>, on: Boolean) {
         state.value = on
