@@ -40,7 +40,7 @@ fun AboutDialog(onDismiss: () -> Unit) {
                     Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text("Abrir ao ligar o carro", modifier = Modifier.weight(1f))
+                    Text("Auto start", modifier = Modifier.weight(1f))
                     Switch(
                         checked = SettingsStore.launchOnBoot.value,
                         onCheckedChange = { SettingsStore.setLaunchOnBoot(it) },
