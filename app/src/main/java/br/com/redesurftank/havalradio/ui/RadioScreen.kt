@@ -84,6 +84,7 @@ fun RadioScreen() {
                     onSaveCurrent = { RadioRepository.favoriteCurrent() },
                     onTune = { RadioRepository.tune(it) },
                     onRemove = { RadioRepository.removeFavorite(it) },
+                    onMove = { from, to -> RadioRepository.moveFavorite(from, to) },
                     modifier = Modifier.width(560.dp).fillMaxHeight(),
                 )
                 VolumeColumn(

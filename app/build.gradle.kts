@@ -12,8 +12,8 @@ android {
         applicationId = "br.com.redesurftank.havalradio"
         minSdk = 28
         targetSdk = 28
-        versionCode = 18
-        versionName = "1.2.1"
+        versionCode = 19
+        versionName = "1.3.0"
     }
 
     signingConfigs {
@@ -79,4 +79,5 @@ dependencies {
     implementation(libs.shizuku.provider)
     implementation(libs.hiddenapibypass)
     implementation(libs.gson)
+    implementation(libs.reorderable)
 }

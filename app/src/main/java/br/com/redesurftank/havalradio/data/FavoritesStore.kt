@@ -47,6 +47,9 @@ object FavoritesStore {
         return list
     }
 
+    /** Persiste a lista reordenada (drag-and-drop). */
+    fun reorder(band: Band, freqs: List<Int>) = save(band, freqs)
+
     /** Remove um favorito; retorna a nova lista. */
     fun remove(band: Band, freqKHz: Int): List<Int> {
         val list = load(band).toMutableList()

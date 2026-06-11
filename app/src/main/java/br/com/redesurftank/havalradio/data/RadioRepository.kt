@@ -170,6 +170,15 @@ object RadioRepository {
         replace(if (s.band == Band.AM) favoritesAm else favoritesFm, updated)
     }
 
+    /** Move um favorito da posição [from] para [to] (drag-and-drop) e persiste a nova ordem. */
+    fun moveFavorite(from: Int, to: Int) {
+        val list = if (band == Band.AM) favoritesAm else favoritesFm
+        if (from !in list.indices) return
+        val item = list.removeAt(from)
+        list.add(to.coerceIn(0, list.size), item)
+        FavoritesStore.reorder(band, list.toList())
+    }
+
     /** Remove um favorito (modo editar). */
     fun removeFavorite(freqKHz: Int, b: Band = band) {
         val updated = FavoritesStore.remove(b, freqKHz)

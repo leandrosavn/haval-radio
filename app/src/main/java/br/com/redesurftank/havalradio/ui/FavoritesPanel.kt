@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items as gridItems
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +40,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.redesurftank.havalradio.data.Band
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyGridState
 
 @Composable
 fun FavoritesPanel(
@@ -50,6 +54,7 @@ fun FavoritesPanel(
     onSaveCurrent: () -> Unit,
     onTune: (Int) -> Unit,
     onRemove: (Int) -> Unit,
+    onMove: (from: Int, to: Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -79,23 +84,33 @@ fun FavoritesPanel(
             )
         }
 
-        // grid de presets
+        // grid de presets (reordenável por drag-and-drop no modo editar)
+        val gridState = rememberLazyGridState()
+        val reorderState = rememberReorderableLazyGridState(gridState) { from, to ->
+            onMove(from.index, to.index)
+        }
         LazyVerticalGrid(
+            state = gridState,
             columns = GridCells.Fixed(2),
             modifier = Modifier.weight(1f).fillMaxWidth().padding(horizontal = 22.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             gridItems(favs, key = { it }) { freq ->
-                PresetCard(
-                    freqKHz = freq,
-                    band = band,
-                    active = freq == currentFreq,
-                    editing = editing,
-                    slot = favs.indexOf(freq) + 1,
-                    onClick = { if (!editing) onTune(freq) },
-                    onRemove = { onRemove(freq) },
-                )
+                ReorderableItem(reorderState, key = freq) { isDragging ->
+                    val handle = Modifier.longPressDraggableHandle()
+                    PresetCard(
+                        freqKHz = freq,
+                        band = band,
+                        active = freq == currentFreq,
+                        editing = editing,
+                        isDragging = isDragging,
+                        slot = favs.indexOf(freq) + 1,
+                        dragHandle = if (editing) handle else Modifier,
+                        onClick = { if (!editing) onTune(freq) },
+                        onRemove = { onRemove(freq) },
+                    )
+                }
             }
         }
 
@@ -139,22 +154,26 @@ private fun PresetCard(
     band: Band,
     active: Boolean,
     editing: Boolean,
+    isDragging: Boolean,
     slot: Int,
+    dragHandle: Modifier,
     onClick: () -> Unit,
     onRemove: () -> Unit,
 ) {
     val accent = MaterialTheme.colorScheme.primary
     val logo = UiKit.logoColor(freqKHz, band)
+    val highlight = isDragging || active
     Box(
         Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(18.dp))
             .background(MaterialTheme.colorScheme.surface)
             .border(
-                width = if (active) 2.dp else 1.dp,
-                color = if (active) accent else UiKit.Line,
+                width = if (highlight) 2.dp else 1.dp,
+                color = if (highlight) accent else UiKit.Line,
                 shape = RoundedCornerShape(18.dp),
             )
+            .then(dragHandle)
             .clickable(onClick = onClick)
             .padding(16.dp),
     ) {
@@ -174,6 +193,13 @@ private fun PresetCard(
             }
         }
         if (editing) {
+            // o card inteiro é arrastável (long-press); o ⠿ é só dica visual de que dá pra reordenar
+            Icon(
+                Icons.Filled.DragHandle,
+                "Arrastar para reordenar",
+                tint = UiKit.Muted2,
+                modifier = Modifier.align(Alignment.TopStart).size(16.dp),
+            )
             Box(
                 Modifier.align(Alignment.TopEnd).size(26.dp).clip(CircleShape)
                     .background(androidx.compose.ui.graphics.Color(0xFFE0556A))
