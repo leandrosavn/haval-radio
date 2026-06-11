@@ -8,7 +8,6 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.FileProvider
 import br.com.redesurftank.havalradio.BuildConfig
-import org.json.JSONObject
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
@@ -40,19 +39,17 @@ object UpdateManager {
         post { checking.value = true; available.value = null; message.value = "Verificando…" }
         io.execute {
             try {
-                val obj = JSONObject(httpGet("https://api.github.com/repos/$REPO/releases/latest"))
-                val tag = obj.optString("tag_name").ifBlank { obj.optString("name") }
-                val latest = tag.trim().trimStart('v')
-                val notes = obj.optString("body")
-                var apk: String? = null
-                obj.optJSONArray("assets")?.let { arr ->
-                    for (i in 0 until arr.length()) {
-                        val a = arr.getJSONObject(i)
-                        if (a.optString("name").endsWith(".apk", true)) {
-                            apk = a.optString("browser_download_url"); break
-                        }
-                    }
-                }
+                // A rede da central NÃO alcança api.github.com (DNS). Usamos só github.com:
+                // o feed releases.atom dá a tag mais recente e montamos a URL do APK
+                // deterministicamente (o CI sempre publica o asset como app-release.apk).
+                val atom = httpGet("https://github.com/$REPO/releases.atom")
+                val tag = Regex("/releases/tag/(v[^\"/<]+)").find(atom)?.groupValues?.get(1)
+                    ?: throw IllegalStateException("nenhuma release encontrada no feed")
+                val latest = tag.trimStart('v')
+                // 1º <title> é o do feed; o 2º é o da release mais nova.
+                val notes = Regex("<title>([^<]+)</title>").findAll(atom)
+                    .map { it.groupValues[1] }.drop(1).firstOrNull().orEmpty()
+                val apk: String? = "https://github.com/$REPO/releases/download/$tag/app-release.apk"
                 val newer = isNewer(latest, currentVersion)
                 post {
                     checking.value = false
@@ -119,7 +116,7 @@ object UpdateManager {
     private fun httpGet(url: String): String {
         val conn = (URL(url).openConnection() as HttpURLConnection).apply {
             requestMethod = "GET"
-            setRequestProperty("Accept", "application/vnd.github+json")
+            setRequestProperty("Accept", "application/atom+xml, */*")
             setRequestProperty("User-Agent", "haval-radio")
             connectTimeout = 10_000; readTimeout = 15_000
         }
