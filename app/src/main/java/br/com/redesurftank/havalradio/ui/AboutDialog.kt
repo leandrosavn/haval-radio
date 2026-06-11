@@ -12,6 +12,10 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,6 +26,7 @@ import br.com.redesurftank.havalradio.update.UpdateManager
 @Composable
 fun AboutDialog(onDismiss: () -> Unit) {
     val context = LocalContext.current
+    var showRecon by remember { mutableStateOf(false) }
     val checking = UpdateManager.checking.value
     val downloading = UpdateManager.downloading.value
     val progress = UpdateManager.progress.value
@@ -59,6 +64,9 @@ fun AboutDialog(onDismiss: () -> Unit) {
                     )
                     Text("$progress%")
                 }
+
+                Spacer(Modifier.height(8.dp))
+                TextButton(onClick = { showRecon = true }) { Text("🔧 Diagnóstico (recon)") }
             }
         },
         confirmButton = {
@@ -76,4 +84,6 @@ fun AboutDialog(onDismiss: () -> Unit) {
             TextButton(onClick = onDismiss) { Text("Fechar") }
         },
     )
+
+    if (showRecon) ReconDialog(onDismiss = { showRecon = false })
 }
