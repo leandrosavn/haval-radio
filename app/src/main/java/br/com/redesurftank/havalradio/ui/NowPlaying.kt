@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
@@ -55,12 +57,14 @@ fun NowPlaying(
     st: Station?,
     band: Band,
     isFav: Boolean,
+    playing: Boolean,
     muted: Boolean,
     searching: Boolean,
     progress: Int,
     onTune: (Int) -> Unit,
     onSeek: (Int) -> Unit,
     onScan: () -> Unit,
+    onTogglePlay: () -> Unit,
     onMute: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -115,6 +119,7 @@ fun NowPlaying(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RoundButton(Icons.Filled.SkipPrevious, "Anterior", 66) { onSeek(-1) }
+                PlayPauseButton(playing, onTogglePlay)
                 MuteButton(muted, onMute)
                 RoundButton(Icons.Filled.SkipNext, "Próxima", 66) { onSeek(1) }
                 RoundButton(Icons.Filled.Search, "Buscar", 56) { onScan() }
@@ -137,6 +142,34 @@ private fun RoundButton(icon: ImageVector, desc: String, size: Int, onClick: () 
         contentAlignment = Alignment.Center,
     ) {
         Icon(icon, desc, tint = MaterialTheme.colorScheme.onBackground, modifier = Modifier.size((size / 2.6f).dp))
+    }
+}
+
+/**
+ * Play/pause secundário. Como o rádio inicia em pause, fica destacado (cor de acento)
+ * enquanto parado para deixar claro que precisa ser apertado ao menos uma vez.
+ */
+@Composable
+private fun PlayPauseButton(playing: Boolean, onClick: () -> Unit) {
+    Box(
+        Modifier.size(66.dp).clip(CircleShape)
+            .then(
+                if (playing) {
+                    Modifier.background(MaterialTheme.colorScheme.surface)
+                        .border(1.dp, UiKit.Line, CircleShape)
+                } else {
+                    Modifier.background(Brush.verticalGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)))
+                }
+            )
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            if (playing) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+            if (playing) "Pausar" else "Tocar",
+            tint = if (playing) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onPrimary,
+            modifier = Modifier.size(30.dp),
+        )
     }
 }
 

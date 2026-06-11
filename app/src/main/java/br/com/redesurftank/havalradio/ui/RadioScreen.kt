@@ -27,6 +27,7 @@ import br.com.redesurftank.havalradio.update.UpdateManager
 fun RadioScreen() {
     val st = RadioRepository.station.value
     val connected = RadioRepository.connected.value
+    val playing = RadioRepository.playing.value
     val band = RadioRepository.band
     val searching = RadioRepository.searching.value
     val progress = RadioRepository.searchProgress.value
@@ -60,12 +61,14 @@ fun RadioScreen() {
                     st = st,
                     band = band,
                     isFav = isFav,
+                    playing = playing,
                     muted = muted,
                     searching = searching,
                     progress = progress,
                     onTune = { RadioRepository.tune(it) },
                     onSeek = { RadioRepository.seek(it) },
                     onScan = { RadioRepository.startScan() },
+                    onTogglePlay = { RadioRepository.togglePlay() },
                     onMute = { RadioRepository.toggleMute() },
                     modifier = Modifier.weight(1f),
                 )
