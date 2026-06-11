@@ -66,7 +66,20 @@ object RadioRepository {
             if (v != null) main.post { apply(k, v) }
         }
         VehicleClient.registerListener(RadioKeys.ALL, listener)
+
+        // Auto-play: ao abrir o app, se o rádio NÃO estiver tocando, dispara a próxima favorita
+        // (único caminho que reconquista o foco de áudio — ver [MediaCenterControl]). Roda uma vez
+        // por sessão; o post entra DEPOIS dos apply() acima (mesmo handler, FIFO), então
+        // playing.value já reflete o estado inicial lido do veículo.
+        main.post {
+            if (!autoPlayChecked) {
+                autoPlayChecked = true
+                if (!playing.value) MediaCenterControl.playNextFavorite()
+            }
+        }
     }
+
+    @Volatile private var autoPlayChecked = false
 
     private fun loadFavorites() {
         replace(favoritesFm, FavoritesStore.load(Band.FM))
@@ -111,15 +124,6 @@ object RadioRepository {
         }
         io.execute { VehicleClient.set(RadioKeys.CUR_CHANNEL_INFO, RadioCodec.tuneValue(freqKHz, b)) }
     }
-
-    /**
-     * "Play": toca/avança para a próxima favorita do mediacenter, com foco de áudio (= som real).
-     *
-     * Recon 2026-06-11: escrever [RadioKeys.PLAY_STATE] é REJEITADO pelo veículo ("is not support")
-     * e só tunar não retoma o áudio (o foco é do mediacenter). [MediaCenterControl.playNextFavorite]
-     * replica a tecla "próxima favorita" do volante — o único caminho que faz o rádio tocar de fato.
-     */
-    fun play() = MediaCenterControl.playNextFavorite()
 
     fun setBand(target: Band) {
         if (target == band) return

@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
@@ -56,14 +55,12 @@ fun NowPlaying(
     st: Station?,
     band: Band,
     isFav: Boolean,
-    playing: Boolean,
     muted: Boolean,
     searching: Boolean,
     progress: Int,
     onTune: (Int) -> Unit,
     onSeek: (Int) -> Unit,
     onScan: () -> Unit,
-    onPlay: () -> Unit,
     onMute: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -118,7 +115,6 @@ fun NowPlaying(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RoundButton(Icons.Filled.SkipPrevious, "Anterior", 66) { onSeek(-1) }
-                PlayButton(playing, onPlay)
                 MuteButton(muted, onMute)
                 RoundButton(Icons.Filled.SkipNext, "Próxima", 66) { onSeek(1) }
                 RoundButton(Icons.Filled.Search, "Buscar", 56) { onScan() }
@@ -141,37 +137,6 @@ private fun RoundButton(icon: ImageVector, desc: String, size: Int, onClick: () 
         contentAlignment = Alignment.Center,
     ) {
         Icon(icon, desc, tint = MaterialTheme.colorScheme.onBackground, modifier = Modifier.size((size / 2.6f).dp))
-    }
-}
-
-/**
- * Botão "Tocar favorita". Não é um play/pause real: pausar o tuner é interno do mediacenter e
- * inalcançável por um app de terceiro (escrever play_state é rejeitado). Este botão replica a
- * tecla "próxima favorita" do volante (broadcast keyCode 517) — o mediacenter reconquista o foco
- * de áudio e toca uma favorita. Fica destacado (acento) quando o rádio NÃO está tocando, para
- * convidar o toque; cada toque avança para a próxima favorita. O liga/desliga do som é o Mute.
- */
-@Composable
-private fun PlayButton(playing: Boolean, onClick: () -> Unit) {
-    Box(
-        Modifier.size(66.dp).clip(CircleShape)
-            .then(
-                if (playing) {
-                    Modifier.background(MaterialTheme.colorScheme.surface)
-                        .border(1.dp, UiKit.Line, CircleShape)
-                } else {
-                    Modifier.background(Brush.verticalGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)))
-                }
-            )
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            Icons.Filled.PlayArrow,
-            "Tocar favorita",
-            tint = if (playing) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onPrimary,
-            modifier = Modifier.size(30.dp),
-        )
     }
 }
 

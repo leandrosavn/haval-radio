@@ -6,27 +6,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import br.com.redesurftank.havalradio.data.AccentStore
 import br.com.redesurftank.havalradio.ui.UiKit
-
-private val DarkColors = darkColorScheme(
-    primary = Accent,
-    onPrimary = OnAccent,
-    secondary = Accent2,
-    background = Bg,
-    surface = Surface,
-    onBackground = TextPrimary,
-    onSurface = TextPrimary,
-)
-
-private val LightColors = lightColorScheme(
-    primary = Accent2,
-    onPrimary = Color.White,
-    secondary = Accent,
-    background = Color(0xFFF2F4F7),
-    surface = Color(0xFFFFFFFF),
-    onBackground = Color(0xFF131720),
-    onSurface = Color(0xFF131720),
-)
 
 @Composable
 fun HavalRadioTheme(
@@ -35,8 +16,33 @@ fun HavalRadioTheme(
 ) {
     // Mantém o UiKit (cores lidas como propriedades) em sincronia com o tema atual.
     UiKit.dark = darkTheme
+
+    // O acento é dinâmico (escolhido na barra de swatches). Lê o estado observável aqui para
+    // recompor quando o usuário troca de cor; primary = accent, secondary = accent2.
+    val accent = AccentStore.selected.value
+    val colors = if (darkTheme) {
+        darkColorScheme(
+            primary = accent.primary,
+            onPrimary = accent.onAccent,
+            secondary = accent.secondary,
+            background = Bg,
+            surface = Surface,
+            onBackground = TextPrimary,
+            onSurface = TextPrimary,
+        )
+    } else {
+        lightColorScheme(
+            primary = accent.secondary,
+            onPrimary = Color.White,
+            secondary = accent.primary,
+            background = Color(0xFFF2F4F7),
+            surface = Color(0xFFFFFFFF),
+            onBackground = Color(0xFF131720),
+            onSurface = Color(0xFF131720),
+        )
+    }
     MaterialTheme(
-        colorScheme = if (darkTheme) DarkColors else LightColors,
+        colorScheme = colors,
         typography = AppTypography,
         content = content,
     )

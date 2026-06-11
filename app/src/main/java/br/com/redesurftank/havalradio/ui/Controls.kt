@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
@@ -25,7 +26,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.redesurftank.havalradio.data.AccentStore
 import br.com.redesurftank.havalradio.data.Band
+import br.com.redesurftank.havalradio.data.ThemeStore
 
 /** Segmento FM/AM no topo. */
 @Composable
@@ -93,6 +96,64 @@ fun PillButton(icon: ImageVector, text: String, active: Boolean = false, onClick
         Icon(icon, null, tint = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground, modifier = Modifier.size(18.dp))
         Spacer(Modifier.width(7.dp))
         Text(text, fontSize = 15.sp, fontWeight = FontWeight.Bold, color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground)
+    }
+}
+
+/** Seletor de modo de tema na topbar: Claro (☀) / Escuro (🌙) / Sistema do carro (🚗). */
+@Composable
+fun ThemeModeSegment() {
+    val mode = ThemeStore.mode.value
+    val options = listOf(
+        ThemeStore.Mode.LIGHT to "☀",
+        ThemeStore.Mode.DARK to "🌙",
+        ThemeStore.Mode.SYSTEM to "🚗",
+    )
+    Row(
+        Modifier.clip(RoundedCornerShape(14.dp))
+            .background(MaterialTheme.colorScheme.surface)
+            .border(1.dp, UiKit.Line, RoundedCornerShape(14.dp))
+            .padding(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(3.dp),
+    ) {
+        options.forEach { (m, icon) ->
+            val on = m == mode
+            Box(
+                Modifier.clip(RoundedCornerShape(10.dp))
+                    .background(if (on) MaterialTheme.colorScheme.primary.copy(alpha = 0.16f) else Color.Transparent)
+                    .border(
+                        1.dp,
+                        if (on) MaterialTheme.colorScheme.primary.copy(alpha = 0.45f) else Color.Transparent,
+                        RoundedCornerShape(10.dp),
+                    )
+                    .clickable { ThemeStore.set(m) }
+                    .padding(horizontal = 11.dp, vertical = 7.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(icon, fontSize = 18.sp)
+            }
+        }
+    }
+}
+
+/** Barra de cor de acento: um círculo por preset; o selecionado ganha anel. */
+@Composable
+fun AccentSwatches() {
+    val sel = AccentStore.selected.value
+    Row(horizontalArrangement = Arrangement.spacedBy(7.dp), verticalAlignment = Alignment.CenterVertically) {
+        AccentStore.PRESETS.forEach { a ->
+            val on = a.key == sel.key
+            Box(
+                Modifier.size(if (on) 26.dp else 22.dp)
+                    .clip(CircleShape)
+                    .background(a.primary)
+                    .border(
+                        if (on) 2.dp else 1.dp,
+                        if (on) MaterialTheme.colorScheme.onBackground else UiKit.Line2,
+                        CircleShape,
+                    )
+                    .clickable { AccentStore.set(a) },
+            )
+        }
     }
 }
 

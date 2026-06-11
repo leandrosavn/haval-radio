@@ -1,6 +1,7 @@
 package br.com.redesurftank.havalradio
 
 import android.app.Application
+import br.com.redesurftank.havalradio.data.AccentStore
 import br.com.redesurftank.havalradio.data.FavoritesStore
 import br.com.redesurftank.havalradio.data.MediaCenterControl
 import br.com.redesurftank.havalradio.data.ThemeStore
@@ -14,5 +15,6 @@ class App : Application() {
         FavoritesStore.init(this)
         MediaCenterControl.init(this)
         ThemeStore.init(this)
+        AccentStore.init(this)
     }
 }
