@@ -222,6 +222,21 @@ fun TempBadge(value: Float?, label: String) {
 private fun fmtTemp(v: Float): String =
     if (v == v.toLong().toFloat()) v.toLong().toString() else String.format(Locale.US, "%.1f", v)
 
+/** Botão EQ na topbar (abre o painel de som). */
+@Composable
+fun EqButton(onClick: () -> Unit) {
+    Row(
+        Modifier.clip(RoundedCornerShape(13.dp))
+            .background(MaterialTheme.colorScheme.surface)
+            .border(1.dp, UiKit.Line2, RoundedCornerShape(13.dp))
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 9.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text("🎚 EQ", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground)
+    }
+}
+
 /** Botão de versão (abre Sobre). */
 @Composable
 fun VersionButton(version: String, onClick: () -> Unit) {

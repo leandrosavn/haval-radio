@@ -38,6 +38,7 @@ fun RadioScreen() {
     val muted = vol == 0
 
     var showAbout by remember { mutableStateOf(false) }
+    var showEq by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf(false) }
 
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -55,6 +56,7 @@ fun RadioScreen() {
                 Spacer(Modifier.weight(1f))
                 AccentSwatches()
                 ThemeModeSegment()
+                EqButton { showEq = true }
                 VersionButton(UpdateManager.currentVersion) { showAbout = true }
             }
 
@@ -97,5 +99,6 @@ fun RadioScreen() {
         }
 
         if (showAbout) AboutDialog(onDismiss = { showAbout = false })
+        if (showEq) EqDialog(onDismiss = { showEq = false })
     }
 }
