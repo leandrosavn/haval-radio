@@ -1,79 +1,103 @@
-# Haval Radio
+# 📻 Haval Radio
 
-Interface de **rádio FM customizada** para a central multimídia de veículos Haval/GWM, como app Android **standalone**.
+Interface de **rádio FM/AM customizada** para a central multimídia de veículos **Haval/GWM**, como app Android **standalone** — UI própria em Jetpack Compose, dirigindo o tuner nativo do carro.
 
-> ⚠️ Projeto educacional/não oficial, sem vínculo com Haval/GWM. Envolve engenharia reversa para estudo; uso por sua conta e risco.
+![Haval Radio — tela principal](docs/prototype-v2.png)
 
-## Visão geral
+> ⚠️ Projeto pessoal, educacional e **não oficial**, sem vínculo com Haval/GWM. Envolve engenharia reversa da central para fins de estudo. Uso por sua conta e risco.
 
-O app dirige o tuner nativo do veículo pelas propriedades `sys.radio.*` expostas pelo
-`IntelligentVehicleControlService` (SDK Beantechs), acessadas via **Shizuku** — o mesmo modelo de
-integração do projeto Impulse (`haval-app-tool-multimidia`) e do Haval Climate Control.
+## ✨ O que faz
 
-Stack: **Kotlin + Jetpack Compose + Material 3 + Shizuku**. minSdk/targetSdk 28 (Android 9), compileSdk 36.
+- 📻 **FM e AM** — sintonia e troca de banda
+- 🎚️ **Régua de sintonia** — arraste para sintonizar; botões de estação anterior/próxima
+- ⭐ **Favoritos** — lista própria, gerenciada pela estrela; toque para sintonizar
+- 🔊 **Volume vertical** + **Mudo** (o liga/desliga do som)
+- ▶️ **Auto-play ao abrir** — se o rádio não estiver tocando, já sintoniza uma favorita (com som)
+- 🌗 **Tema** — Claro / Escuro / **Sistema** (segue o dia/noite do carro)
+- 🎨 **Cor de acento** — 9 paletas selecionáveis na barra de cores da topbar
+- 🚗 **Auto start** — abre o app ao ligar o carro (com toggle no "Sobre")
+- ⬆️ **Auto-atualização** — verifica e instala novas versões pelo próprio app
 
-## Estado atual (v0 — bootstrap)
+## 🧩 Como funciona
 
-Esqueleto inicial. A tela atual conecta no veículo e funciona como **monitor de recon**: lê e
-exibe ao vivo todas as chaves `sys.radio.*`, para mapearmos os formatos reais (estação atual,
-listas de estações, estados) antes de montar a UI definitiva.
+Stack: **Kotlin · Jetpack Compose · Material 3 · Shizuku**. minSdk/targetSdk 28 (Android 9), compileSdk 36.
 
-A **UI final** (favoritos editáveis, dial-régua com sintonia por arrasto, volume, modos
-claro/escuro/sistema, acento parametrizável) será portada do protótipo já desenhado — ver o
-projeto **FM-Radio** na base de conhecimento (Obsidian).
-
-## Arquitetura
+O app fala com o `IntelligentVehicleControlService` (SDK Beantechs) via **Shizuku**, dirigindo as
+propriedades `sys.radio.*` do tuner:
 
 ```
-ui/RadioScreen.kt        # Compose (v0: status + estação + monitor de recon)
-ui/theme/                # tema Material 3 (acento verde-água, claro/escuro)
-data/RadioKeys.kt        # chaves sys.radio.*
-data/VehicleClient.kt    # bind do IntelligentVehicleControlService via Shizuku + reflexão
-data/RadioRepository.kt  # leitura inicial + listener + estado observável (Compose)
-aidl/com/beantechs/...   # interfaces do veículo (IIntelligentVehicleControlService, IListener)
+ServiceManager.getService("com.beantechs.intelligentvehiclecontrol")   # reflexão + HiddenApiBypass
+  → ShizukuBinderWrapper
+  → fetchData(key)                                  # leitura
+  → request("cmd.common.request.set", key, value)   # escrita
 ```
 
-Integração com o veículo (igual ao Impulse):
-`android.os.ServiceManager.getService("com.beantechs.intelligentvehiclecontrol")` (via reflexão +
-HiddenApiBypass) → `ShizukuBinderWrapper` → `IIntelligentVehicleControlService`. Leitura com
-`fetchData(key)`, escrita com `request("cmd.common.request.set", key, value)`.
+Sintonia, banda, volume e estado saem direto das `sys.radio.*` / `media_volume`. Mas dois pontos
+exigiram engenharia reversa:
 
-## Pré-requisitos no carro
+- 🔑 **Tocar com som (foco de áudio):** escrever `sys.radio.play_state` é **rejeitado** para apps de
+  terceiros, e só sintonizar não traz som — o foco de áudio pertence ao `com.beantechs.mediacenter`.
+  A solução é **replicar a tecla "próxima favorita" do volante**: um broadcast
+  `BEAN_GLOBAL_KEY_EVENT` (keyCode `517`) que faz o mediacenter reconquistar o foco e tocar.
+- ⭐ **Favoritos locais:** o veículo nunca expõe os favoritos do rádio em runtime, então o app
+  mantém a própria lista (`SharedPreferences`).
 
-- **Shizuku** ativo e permissão concedida ao app. (O app não faz o bootstrap do Shizuku.)
+## ⛔ Limitações (honestas)
 
-## Build
+O que a central **não permite** a um app de terceiro — comprovado por recon ao vivo:
+
+| Recurso | Status |
+|---|---|
+| Pausar o tuner | ❌ `play_state` é read-only; o foco de áudio é do mediacenter. O **Mudo** faz as vezes. |
+| Busca / scan de estações | ❌ `search_state` é read-only e não há gatilho externo. (Botão de busca oculto por ora.) |
+| RDS (nome da estação / radiotext) | ❌ A central não fornece — PS e radiotext vêm vazios (nem o app stock mostra nome). |
+| Sinal / HD Radio | ❌ Existe só no HAL do tuner, não exposto pelo bridge `sys.radio.*`. |
+
+## 🖼️ Protótipo
+
+A UI é desenhada num mockup HTML versionado em [`prototype/index-v2.html`](prototype/index-v2.html)
+(a imagem acima é ele):
 
 ```bash
-./gradlew :app:assembleDebug
-# saída: app/build/outputs/apk/debug/app-debug.apk
+node prototype/serve.js   # http://localhost:4599
 ```
-Ou abrir no Android Studio.
 
-## Como capturar o recon (e enviar os dados)
+## 🚀 Build & instalação
 
-A tela v0 lê todas as `sys.radio.*` ao vivo. Para extrair os valores:
+Releases saem por **tag** via GitHub Actions, gerando um **APK assinado** anexado à release. No
+carro, o app **se auto-atualiza** (lê o feed de releases do GitHub e instala).
 
-**Via logcat (recomendado)** — do PC, com ADB conectado na central (porta 5555):
 ```bash
-adb logcat -s HavalRadioRecon
-```
-Abra o app, opere o rádio (trocar estação, seek, favoritar) e copie a saída. Linhas:
-`INIT <chave> = <valor>` (leitura inicial) e `CHANGE <chave> = <valor>` (mudanças ao vivo).
+# sideload inicial (uma vez), com a central acessível por ADB:
+adb install -r app-release.apk
 
-**Via arquivo** — toque em **Exportar recon** no app (mostra o caminho no Toast), depois:
-```bash
-adb pull /sdcard/Android/data/br.com.redesurftank.havalradio/files/recon-AAAAMMDD-HHMMSS.txt
+# build local (precisa de JDK + Android SDK):
+./gradlew :app:assembleRelease
 ```
 
-## Roadmap
+**Pré-requisito no carro:** **Shizuku** ativo e permissão concedida ao app (o app não faz o
+bootstrap do Shizuku).
 
-- [x] Bootstrap (projeto, Shizuku, AIDL, data layer, monitor de recon)
-- [ ] Recon no carro: mapear formatos de `cur_channel_info`, `*_station_list`, ações de `play_control_action`
-- [ ] Confirmar foco de áudio (tocar sem o app de rádio stock em foreground)
-- [ ] Portar a UI do protótipo para Compose
-- [ ] Persistência de preferências, CI por tag (padrão do Haval Climate Control)
+## 🗂️ Estrutura
 
-## Licença
+```
+app/src/main/java/.../havalradio/
+├─ MainActivity.kt            # entrada: tema + Shizuku + RadioScreen
+├─ App.kt                     # init dos stores
+├─ BootReceiver.kt            # auto start (abrir ao ligar o carro)
+├─ data/
+│  ├─ RadioRepository.kt      # estado observável + ações (tune/seek/banda/volume/auto-play)
+│  ├─ RadioKeys.kt            # chaves sys.radio.*
+│  ├─ RadioModels.kt          # Station/Band + codec {freq,banda,play,stereo}
+│  ├─ VehicleClient.kt        # bind do serviço via Shizuku + reflexão
+│  ├─ MediaCenterControl.kt   # broadcast 517 → tocar via foco de áudio
+│  ├─ FavoritesStore.kt       # favoritos locais
+│  └─ ThemeStore / AccentStore / SettingsStore
+├─ ui/                        # RadioScreen, NowPlaying, FavoritesPanel, VolumeColumn,
+│                             # Controls, TuningRuler, AboutDialog, theme/
+└─ update/UpdateManager.kt    # auto-atualização (releases.atom + APK)
+```
+
+## 📄 Licença
 
 MIT — ver [LICENSE](LICENSE).
