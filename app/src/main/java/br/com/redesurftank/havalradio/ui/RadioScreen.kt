@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
@@ -108,7 +109,14 @@ fun RadioScreen() {
                     if (st != null && RadioRepository.isFavorite(st.freqKHz)) Badge("★ FAVORITO")
                 }
 
-                Spacer(Modifier.height(28.dp))
+                Spacer(Modifier.height(18.dp))
+                TuningRuler(
+                    station = st,
+                    accent = MaterialTheme.colorScheme.primary,
+                    onTune = { RadioRepository.tune(it) },
+                )
+
+                Spacer(Modifier.height(20.dp))
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     IconButton(onClick = { RadioRepository.seek(-1) }) {
                         Icon(Icons.Filled.SkipPrevious, "Anterior", Modifier.size(40.dp))
@@ -139,7 +147,9 @@ fun RadioScreen() {
 
                 Spacer(Modifier.height(28.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Filled.VolumeUp, "Volume")
+                    IconButton(onClick = { RadioRepository.toggleMute() }) {
+                        Icon(if (vol == 0) Icons.Filled.VolumeOff else Icons.Filled.VolumeUp, "Mudo")
+                    }
                     Spacer(Modifier.width(12.dp))
                     Slider(
                         value = vol.toFloat(),

@@ -64,6 +64,14 @@ object RadioRepository {
             if (v != null) main.post { apply(k, v) }
         }
         VehicleClient.registerListener(RadioKeys.ALL, listener)
+        // favoritos podem não estar em cache no boot — re-tenta a leitura depois
+        main.postDelayed({
+            io.execute {
+                listOf(RadioKeys.FM_FAVORITES, RadioKeys.AM_FAVORITES).forEach { k ->
+                    VehicleClient.getData(k)?.let { v -> main.post { apply(k, v) } }
+                }
+            }
+        }, 2500)
     }
 
     fun stop() = VehicleClient.unregisterListener(listener)
@@ -97,8 +105,13 @@ object RadioRepository {
         RadioCodec.parseStationList(raw).maxOrNull() ?: raw?.trim()?.toIntOrNull()
 
     // ---- ações de controle (escrevem via Beantechs) ----
-    fun tune(freqKHz: Int, b: Band = band) = io.execute {
-        VehicleClient.set(RadioKeys.CUR_CHANNEL_INFO, RadioCodec.tuneValue(freqKHz, b))
+    fun tune(freqKHz: Int, b: Band = band) {
+        // atualização otimista da UI (o listener confirma/corrige depois)
+        main.post {
+            val cur = station.value
+            station.value = Station(freqKHz, b, playing = cur?.playing ?: true, stereo = cur?.stereo ?: false)
+        }
+        io.execute { VehicleClient.set(RadioKeys.CUR_CHANNEL_INFO, RadioCodec.tuneValue(freqKHz, b)) }
     }
 
     fun togglePlay() = io.execute {
@@ -124,6 +137,16 @@ object RadioRepository {
         val clamped = v.coerceIn(0, volumeMax.value)
         volume.value = clamped
         io.execute { VehicleClient.set(RadioKeys.MEDIA_VOLUME, clamped.toString()) }
+    }
+
+    private var volumeBeforeMute = 0
+    fun toggleMute() {
+        if (volume.value > 0) {
+            volumeBeforeMute = volume.value
+            setVolume(0)
+        } else {
+            setVolume(if (volumeBeforeMute > 0) volumeBeforeMute else (volumeMax.value / 3).coerceAtLeast(1))
+        }
     }
 
     fun favoriteCurrent() = io.execute {
