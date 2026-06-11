@@ -4,6 +4,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import br.com.redesurftank.havalradio.data.RadioBrowser
 import br.com.redesurftank.havalradio.data.RadioRepository
 import br.com.redesurftank.havalradio.ui.RadioScreen
 import br.com.redesurftank.havalradio.ui.theme.HavalRadioTheme
@@ -22,6 +23,8 @@ class MainActivity : ComponentActivity() {
         Shizuku.addRequestPermissionResultListener(permListener)
         setContent { HavalRadioTheme { RadioScreen() } }
         requestShizukuThenConnect()
+        // SONDA temporária: mapeia a árvore do MediaBrowser do rádio AOSP (favoritos/transport).
+        RadioBrowser.probe(this)
     }
 
     private fun requestShizukuThenConnect() = runCatching {
