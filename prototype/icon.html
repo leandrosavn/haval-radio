@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Haval Radio — ícone</title>
+<style>
+  body{margin:0;background:#2a2f3a;height:100vh;display:flex;gap:56px;align-items:center;justify-content:center;
+       font-family:'Segoe UI',system-ui,sans-serif;color:#cfd6e0}
+  .item{text-align:center}
+  .wrap{box-shadow:0 16px 40px rgba(0,0,0,.55);overflow:hidden;display:inline-block;line-height:0}
+  .sq{border-radius:0}
+  .rr{border-radius:42px}
+  .ci{border-radius:50%}
+  .label{margin-top:16px;font-size:15px;color:#9099a8}
+  .title{position:fixed;top:28px;left:0;right:0;text-align:center;font-size:18px;color:#eaf2ff;font-weight:600}
+</style></head>
+<body>
+  <div class="title">Haval Radio — ícone atual (placeholder)</div>
+  <div class="item"><div class="wrap sq" id="a"></div><div class="label">quadrado</div></div>
+  <div class="item"><div class="wrap rr" id="b"></div><div class="label">arredondado</div></div>
+  <div class="item"><div class="wrap ci" id="c"></div><div class="label">círculo</div></div>
+  <script>
+    const svg = `<svg width="180" height="180" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+      <rect width="108" height="108" fill="#0E1A17"/>
+      <circle cx="54" cy="58" r="7" fill="#19E3B1"/>
+      <path d="M40,44 A20,20 0 0,0 40,72" stroke="#19E3B1" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M68,44 A20,20 0 0,1 68,72" stroke="#19E3B1" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M32,36 A30,30 0 0,0 32,80" stroke="#5FF0CF" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M76,36 A30,30 0 0,1 76,80" stroke="#5FF0CF" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>`;
+    a.innerHTML = b.innerHTML = c.innerHTML = svg;
+  </script>
+</body></html>
