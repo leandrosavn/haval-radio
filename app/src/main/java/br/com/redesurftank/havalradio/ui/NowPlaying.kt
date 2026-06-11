@@ -117,7 +117,10 @@ fun NowPlaying(
                 RoundButton(Icons.Filled.SkipPrevious, "Anterior", 66) { onSeek(-1) }
                 MuteButton(muted, onMute)
                 RoundButton(Icons.Filled.SkipNext, "Próxima", 66) { onSeek(1) }
-                RoundButton(Icons.Filled.Search, "Buscar", 56) { onScan() }
+                // Lupa/busca OCULTA até decidirmos o que fazer com ela (o scan real é inacessível
+                // por app de terceiro — ver memória). A infra (onScan/startScan) segue intacta p/
+                // reativar fácil quando definirmos a abordagem (soft-scan / lista do stock).
+                // RoundButton(Icons.Filled.Search, "Buscar", 56) { onScan() }
             }
             if (searching) {
                 Spacer(Modifier.height(6.dp))

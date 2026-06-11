@@ -18,17 +18,29 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.redesurftank.havalradio.data.AccentStore
 import br.com.redesurftank.havalradio.data.Band
 import br.com.redesurftank.havalradio.data.ThemeStore
+import br.com.redesurftank.havalradio.ui.theme.DsegFontFamily
+import kotlinx.coroutines.delay
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /** Segmento FM/AM no topo. */
 @Composable
@@ -154,6 +166,55 @@ fun AccentSwatches() {
                     .clickable { AccentStore.set(a) },
             )
         }
+    }
+}
+
+/** Relógio LED 7-segmentos (fonte DSEG, brilho na cor do acento) — hora do sistema. */
+@Composable
+fun TopClock() {
+    var hhmm by remember { mutableStateOf(nowHhMm()) }
+    LaunchedEffect(Unit) {
+        while (true) {
+            hhmm = nowHhMm()
+            delay(1000)
+        }
+    }
+    val accent = MaterialTheme.colorScheme.primary
+    Box(
+        Modifier.clip(RoundedCornerShape(14.dp))
+            .background(Color(0xFF070B0E))
+            .border(1.dp, accent.copy(alpha = 0.30f), RoundedCornerShape(14.dp))
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            hhmm,
+            style = TextStyle(
+                fontFamily = DsegFontFamily,
+                fontSize = 22.sp,
+                color = accent,
+                shadow = Shadow(color = accent.copy(alpha = 0.85f), blurRadius = 18f),
+            ),
+        )
+    }
+}
+
+private fun nowHhMm(): String = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+
+/** Badge de temperatura (valor no acento + rótulo). Some quando o valor ainda não chegou. */
+@Composable
+fun TempBadge(value: Int?, label: String) {
+    if (value == null) return
+    Row(
+        Modifier.clip(RoundedCornerShape(14.dp))
+            .background(MaterialTheme.colorScheme.surface)
+            .border(1.dp, UiKit.Line, RoundedCornerShape(14.dp))
+            .padding(horizontal = 14.dp, vertical = 9.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        Text("$value°", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+        Text(label, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = UiKit.Muted)
     }
 }
 

@@ -20,10 +20,15 @@ object RadioKeys {
     const val MEDIA_VOLUME = "sys.settings.audio.media_volume"
     const val MEDIA_VOLUME_RANGE = "sys.settings.audio.media_volume_range"
 
+    // Temperatura do veículo (chaves do Impulse/CarConstants; valor = float °C). Lidas pelo mesmo serviço.
+    const val OUTSIDE_TEMP = "car.basic.outside_temp"
+    const val INSIDE_TEMP = "car.basic.inside_temp"
+
     /** Chaves monitoradas (listener + leitura inicial). */
     val ALL: List<String> = listOf(
         CUR_CHANNEL_INFO, PLAY_STATE, SEARCH_STATE, SEARCH_PROGRESS,
         FM_FAVORITES, AM_FAVORITES, FM_VALID, AM_VALID,
         MEDIA_VOLUME, MEDIA_VOLUME_RANGE,
+        OUTSIDE_TEMP, INSIDE_TEMP,
     )
 }

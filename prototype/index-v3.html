@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Haval FM — UI mockup</title>
 <style>
+  /* fonte LED 7-segmentos (DSEG) — embutida no repo p/ o relógio estilizado */
+  @font-face{ font-family:'DSEG7'; src:url('fonts/DSEG7Classic-Bold.woff2') format('woff2'); font-weight:bold; font-display:swap; }
   :root{
     --bg0:#08090b; --bg1:#11141a; --card:#161b24; --card2:#121722;
     --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.13);
@@ -57,7 +59,15 @@
   .pill b{color:var(--txt); font-weight:700;}
   .pill .dot{color:var(--accent);}
 
-  /* NOW PLAYING */
+  /* relógio + temp externa na topbar (linha do FM) */
+  .topclock{display:flex; align-items:center; background:#070b0e; border:1px solid rgba(var(--glow),.28); border-radius:14px; padding:7px 16px 6px; box-shadow:inset 0 0 16px rgba(var(--glow),.10);}
+  .topclock .tc-time{font-family:'DSEG7',monospace; font-size:26px; font-weight:bold; color:var(--accent); text-shadow:0 0 10px rgba(var(--glow),.75); letter-spacing:1px; line-height:1;}
+  .tpill b{color:var(--accentSoft); font-weight:800; font-size:18px; font-variant-numeric:tabular-nums;}
+  .topclock .tc-dot{color:var(--muted2);}
+  .topclock .tc-temp{font-size:14px; font-weight:600; color:var(--muted);}
+  .topclock .tc-temp b{color:var(--accentSoft); font-weight:800; font-size:16px; margin-right:3px;}
+
+  /* NOW PLAYING — régua de sintonia ocupando todo o espaço (largura cheia) */
   .now{grid-area:now; padding:20px 48px 16px; display:flex; flex-direction:column; justify-content:center; gap:30px; min-width:0;}
   .station{display:flex; align-items:center; justify-content:center; gap:30px;}
   .logo{width:128px;height:128px;border-radius:34px; display:grid;place-items:center; font-weight:800; font-size:44px; color:#fff; box-shadow:var(--shadow), inset 0 0 0 1.5px rgba(255,255,255,.16); flex:none; letter-spacing:.5px; text-shadow:0 1px 3px rgba(0,0,0,.4);}
@@ -215,6 +225,10 @@
       <button data-band="AM">AM</button>
     </div>
     <div class="pill"><span class="dot">●</span> <b>Estéreo</b></div>
+    <!-- relógio (linha do FM) + temperaturas em badges separados -->
+    <div class="topclock"><span class="tc-time" id="ambClock">10:47</span></div>
+    <div class="pill tpill"><b id="extTemp">23°</b> externa</div>
+    <div class="pill tpill"><b id="intTemp">21°</b> interna</div>
     <div class="spacer"></div>
     <div class="modeseg" id="modeSeg" title="Tema">
       <button data-mode="light" title="Claro">☀</button>
@@ -553,8 +567,16 @@
     });
   })();
 
-  // relógio do sistema
-  function clock(){const d=new Date(); document.getElementById('clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+  // relógio do sistema (faixa lateral) + relógio da topbar (linha do FM)
+  function clock(){
+    const d=new Date();
+    const hhmm=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+    document.getElementById('clock').textContent=hhmm;     // faixa do sistema
+    document.getElementById('ambClock').textContent=hhmm;  // topbar
+    // temps: mock no protótipo. No app, lidas do veículo (mesmo serviço, sem recon):
+    //   externa = car.basic.outside_temp · interna = car.basic.inside_temp  (float °C → arredonda)
+    //   unidade = car.configure.default_temp_unit (°C/°F)
+  }
   clock(); setInterval(clock,10000);
 
   render();

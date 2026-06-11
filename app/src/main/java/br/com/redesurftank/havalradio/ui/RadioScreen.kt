@@ -49,6 +49,9 @@ fun RadioScreen() {
                 BandSegment(band) { RadioRepository.setBand(it) }
                 InfoPill(if (connected) "Conectado" else "Sem conexão (Shizuku?)", accent = connected)
                 if (st?.stereo == true) InfoPill("Estéreo", accent = true)
+                TopClock()
+                TempBadge(RadioRepository.outsideTemp.value, "externa")
+                TempBadge(RadioRepository.insideTemp.value, "interna")
                 Spacer(Modifier.weight(1f))
                 AccentSwatches()
                 ThemeModeSegment()

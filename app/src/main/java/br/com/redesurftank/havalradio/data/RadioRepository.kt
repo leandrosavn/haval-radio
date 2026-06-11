@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
+import kotlin.math.roundToInt
 
 /**
  * Camada de dados do rádio: conecta no veículo via [VehicleClient], mantém o estado reativo
@@ -33,6 +34,8 @@ object RadioRepository {
     val searchProgress = mutableStateOf(0)
     val volume = mutableStateOf(0)
     val volumeMax = mutableStateOf(30)
+    val outsideTemp = mutableStateOf<Int?>(null)
+    val insideTemp = mutableStateOf<Int?>(null)
     val favoritesFm = mutableStateListOf<Int>()
     val favoritesAm = mutableStateListOf<Int>()
     val foundFm = mutableStateListOf<Int>()
@@ -104,8 +107,13 @@ object RadioRepository {
             RadioKeys.AM_VALID -> replace(foundAm, RadioCodec.parseStationList(value))
             RadioKeys.MEDIA_VOLUME -> value?.trim()?.toIntOrNull()?.let { volume.value = it }
             RadioKeys.MEDIA_VOLUME_RANGE -> parseMax(value)?.let { volumeMax.value = it }
+            RadioKeys.OUTSIDE_TEMP -> outsideTemp.value = parseTemp(value)
+            RadioKeys.INSIDE_TEMP -> insideTemp.value = parseTemp(value)
         }
     }
+
+    /** Temperatura do veículo: float °C em string (ex.: "23.5") → arredondado. */
+    private fun parseTemp(raw: String?): Int? = raw?.trim()?.toFloatOrNull()?.roundToInt()
 
     private fun replace(list: MutableList<Int>, values: List<Int>) {
         list.clear(); list.addAll(values)
