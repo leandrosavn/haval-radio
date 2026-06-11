@@ -2,7 +2,7 @@
 
 Interface de **rádio FM/AM customizada** para a central multimídia de veículos **Haval/GWM**, como app Android **standalone** — UI própria em Jetpack Compose, dirigindo o tuner nativo do carro.
 
-![Haval Radio — tela principal](docs/prototype-v2.png)
+![Haval Radio — tela principal](docs/prototype-v3.png)
 
 > ⚠️ Projeto pessoal, educacional e **não oficial**, sem vínculo com Haval/GWM. Envolve engenharia reversa da central para fins de estudo. Uso por sua conta e risco.
 
@@ -15,6 +15,7 @@ Interface de **rádio FM/AM customizada** para a central multimídia de veículo
 - ▶️ **Auto-play ao abrir** — se o rádio não estiver tocando, já sintoniza uma favorita (com som)
 - 🌗 **Tema** — Claro / Escuro / **Sistema** (segue o dia/noite do carro)
 - 🎨 **Cor de acento** — 9 paletas selecionáveis na barra de cores da topbar
+- 🕐 **Relógio LED + temperatura** — relógio 7-segmentos na topbar (cor segue o acento) + temperatura externa e interna do veículo
 - 🚗 **Auto start** — abre o app ao ligar o carro (com toggle no "Sobre")
 - ⬆️ **Auto-atualização** — verifica e instala novas versões pelo próprio app
 

@@ -203,7 +203,7 @@ private fun nowHhMm(): String = SimpleDateFormat("HH:mm", Locale.getDefault()).f
 
 /** Badge de temperatura (valor no acento + rótulo). Some quando o valor ainda não chegou. */
 @Composable
-fun TempBadge(value: Int?, label: String) {
+fun TempBadge(value: Float?, label: String) {
     if (value == null) return
     Row(
         Modifier.clip(RoundedCornerShape(14.dp))
@@ -213,10 +213,14 @@ fun TempBadge(value: Int?, label: String) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Text("$value°", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+        Text("${fmtTemp(value)}°", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
         Text(label, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = UiKit.Muted)
     }
 }
+
+/** Formata a temperatura mantendo a casa decimal (25.5), mas sem o ".0" supérfluo (26). */
+private fun fmtTemp(v: Float): String =
+    if (v == v.toLong().toFloat()) v.toLong().toString() else String.format(Locale.US, "%.1f", v)
 
 /** Botão de versão (abre Sobre). */
 @Composable
