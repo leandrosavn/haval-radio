@@ -26,7 +26,6 @@ import br.com.redesurftank.havalradio.update.UpdateManager
 @Composable
 fun RadioScreen() {
     val st = RadioRepository.station.value
-    val playing = RadioRepository.playing.value
     val connected = RadioRepository.connected.value
     val band = RadioRepository.band
     val searching = RadioRepository.searching.value
@@ -36,15 +35,16 @@ fun RadioScreen() {
     val favs = RadioRepository.favorites()
     val found = RadioRepository.found()
     val isFav = st != null && RadioRepository.isFavorite(st.freqKHz)
+    val muted = vol == 0
 
     var showAbout by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf(false) }
 
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         // O SO desenha a barra de status na esquerda (~96px); o app começa depois dela.
-        Column(Modifier.fillMaxSize().padding(start = 28.dp, top = 16.dp, end = 24.dp, bottom = 16.dp)) {
+        Column(Modifier.fillMaxSize().padding(start = 28.dp, top = 16.dp, end = 20.dp, bottom = 16.dp)) {
 
-            // topbar: FM/AM + pílulas de estado
+            // topbar: FM/AM + pílulas (Sinal não existe na central; só Estéreo é real)
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 BandSegment(band) { RadioRepository.setBand(it) }
                 InfoPill(if (connected) "Conectado" else "Sem conexão (Shizuku?)", accent = connected)
@@ -53,22 +53,18 @@ fun RadioScreen() {
 
             Spacer(Modifier.height(16.dp))
 
-            Row(Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
+            Row(Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(20.dp)) {
                 NowPlaying(
                     st = st,
-                    playing = playing,
                     band = band,
                     isFav = isFav,
+                    muted = muted,
                     searching = searching,
                     progress = progress,
-                    vol = vol,
-                    volMax = volMax,
                     onTune = { RadioRepository.tune(it) },
                     onSeek = { RadioRepository.seek(it) },
-                    onPlay = { RadioRepository.togglePlay() },
                     onScan = { RadioRepository.startScan() },
                     onMute = { RadioRepository.toggleMute() },
-                    onVolume = { RadioRepository.setVolume(it) },
                     modifier = Modifier.weight(1f),
                 )
                 FavoritesPanel(
@@ -83,7 +79,13 @@ fun RadioScreen() {
                     onAbout = { showAbout = true },
                     onTune = { RadioRepository.tune(it) },
                     onRemove = { RadioRepository.removeFavorite(it) },
-                    modifier = Modifier.width(580.dp).fillMaxHeight(),
+                    modifier = Modifier.width(520.dp).fillMaxHeight(),
+                )
+                VolumeColumn(
+                    vol = vol,
+                    volMax = volMax,
+                    onVolume = { RadioRepository.setVolume(it) },
+                    modifier = Modifier.width(116.dp).fillMaxHeight(),
                 )
             }
         }

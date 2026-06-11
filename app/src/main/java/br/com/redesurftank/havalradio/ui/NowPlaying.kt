@@ -3,27 +3,20 @@ package br.com.redesurftank.havalradio.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
@@ -39,13 +32,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.redesurftank.havalradio.data.Band
 import br.com.redesurftank.havalradio.data.Station
-import kotlin.math.roundToInt
 
 @Composable
 fun StationLogo(freqKHz: Int, band: Band, size: Int) {
@@ -62,26 +53,25 @@ fun StationLogo(freqKHz: Int, band: Band, size: Int) {
 @Composable
 fun NowPlaying(
     st: Station?,
-    playing: Boolean,
     band: Band,
     isFav: Boolean,
+    muted: Boolean,
     searching: Boolean,
     progress: Int,
-    vol: Int,
-    volMax: Int,
     onTune: (Int) -> Unit,
     onSeek: (Int) -> Unit,
-    onPlay: () -> Unit,
     onScan: () -> Unit,
     onMute: () -> Unit,
-    onVolume: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier.fillMaxHeight()) {
-        // cabeçalho: logo + frequência
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            if (st != null) StationLogo(st.freqKHz, band, 96)
-            Spacer(Modifier.width(22.dp))
+    Column(
+        modifier.fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        // cabeçalho centralizado: logo + frequência
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(30.dp)) {
+            if (st != null) StationLogo(st.freqKHz, band, 128)
             Column {
                 Text(
                     "${band.name} · ao vivo",
@@ -91,25 +81,20 @@ fun NowPlaying(
                     color = MaterialTheme.colorScheme.secondary,
                 )
                 Row(verticalAlignment = Alignment.Bottom) {
-                    Text(
-                        st?.label ?: "—",
-                        fontSize = 72.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
+                    Text(st?.label ?: "—", fontSize = 88.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground)
                     Spacer(Modifier.width(11.dp))
-                    Text(st?.unit ?: "", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = UiKit.Muted, modifier = Modifier.padding(bottom = 12.dp))
+                    Text(st?.unit ?: "", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = UiKit.Muted, modifier = Modifier.padding(bottom = 14.dp))
                 }
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(10.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(9.dp)) {
                     if (st?.stereo == true) Badge("STEREO", on = true)
-                    Badge(if (playing) "TOCANDO" else "PAUSADO", on = playing)
+                    if (muted) Badge("🔇 MUDO", on = true)
                     if (isFav) Badge("★ FAVORITO", on = true)
                 }
             }
         }
 
-        Spacer(Modifier.weight(1f))
+        Spacer(Modifier.height(34.dp))
 
         // card de sintonia
         Column(
@@ -123,14 +108,14 @@ fun NowPlaying(
             Spacer(Modifier.height(6.dp))
             TuningRuler(station = st, accent = MaterialTheme.colorScheme.primary, onTune = onTune)
 
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(12.dp))
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RoundButton(Icons.Filled.SkipPrevious, "Anterior", 66) { onSeek(-1) }
-                PlayButton(playing, onPlay)
+                MuteButton(muted, onMute)
                 RoundButton(Icons.Filled.SkipNext, "Próxima", 66) { onSeek(1) }
                 RoundButton(Icons.Filled.Search, "Buscar", 56) { onScan() }
             }
@@ -138,9 +123,6 @@ fun NowPlaying(
                 Spacer(Modifier.height(6.dp))
                 Text("Buscando… $progress%", fontSize = 13.sp, color = MaterialTheme.colorScheme.secondary, modifier = Modifier.align(Alignment.CenterHorizontally))
             }
-
-            Spacer(Modifier.height(12.dp))
-            VolumeBar(vol, volMax, onMute, onVolume)
         }
     }
 }
@@ -159,58 +141,21 @@ private fun RoundButton(icon: ImageVector, desc: String, size: Int, onClick: () 
 }
 
 @Composable
-private fun PlayButton(playing: Boolean, onClick: () -> Unit) {
+private fun MuteButton(muted: Boolean, onClick: () -> Unit) {
+    val bg = if (muted) {
+        Brush.verticalGradient(listOf(Color(0xFFE0556A), Color(0xFFB8324A)))
+    } else {
+        Brush.verticalGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary))
+    }
     Box(
-        Modifier.size(88.dp).clip(CircleShape)
-            .background(Brush.verticalGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)))
-            .clickable(onClick = onClick),
+        Modifier.size(88.dp).clip(CircleShape).background(bg).clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            if (playing) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-            "Play/Pause",
-            tint = MaterialTheme.colorScheme.onPrimary,
+            if (muted) Icons.Filled.VolumeOff else Icons.Filled.VolumeUp,
+            "Mudo",
+            tint = if (muted) Color.White else MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.size(40.dp),
         )
-    }
-}
-
-@Composable
-private fun VolumeBar(vol: Int, volMax: Int, onMute: () -> Unit, onVolume: (Int) -> Unit) {
-    val max = volMax.coerceAtLeast(1)
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-        Box(
-            Modifier.size(52.dp).clip(RoundedCornerShape(15.dp))
-                .background(MaterialTheme.colorScheme.surface)
-                .border(1.dp, UiKit.Line, RoundedCornerShape(15.dp))
-                .clickable(onClick = onMute),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(if (vol == 0) Icons.Filled.VolumeOff else Icons.Filled.VolumeUp, "Mudo", tint = MaterialTheme.colorScheme.onBackground, modifier = Modifier.size(23.dp))
-        }
-        BoxWithConstraints(
-            Modifier.weight(1f).height(16.dp).clip(RoundedCornerShape(12.dp))
-                .background(MaterialTheme.colorScheme.surface)
-                .border(1.dp, UiKit.Line, RoundedCornerShape(12.dp))
-                .pointerInput(max) {
-                    detectTapGestures { o -> onVolume((o.x / size.width * max).roundToInt()) }
-                }
-                .pointerInput(max) {
-                    detectHorizontalDragGestures { ch, _ -> onVolume((ch.position.x / size.width * max).roundToInt().coerceIn(0, max)) }
-                },
-        ) {
-            val frac = (vol.toFloat() / max).coerceIn(0f, 1f)
-            Box(
-                Modifier.fillMaxHeight().fillMaxWidth(frac).clip(RoundedCornerShape(12.dp))
-                    .background(Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.secondary, MaterialTheme.colorScheme.primary))),
-            )
-            Box(
-                Modifier.align(Alignment.CenterStart)
-                    .offset(x = (maxWidth * frac - 16.dp).coerceAtLeast(0.dp))
-                    .size(32.dp).clip(CircleShape).background(Color.White)
-                    .border(4.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.28f), CircleShape),
-            )
-        }
-        Text("$vol", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.width(44.dp))
     }
 }
