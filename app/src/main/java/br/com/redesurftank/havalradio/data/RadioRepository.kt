@@ -54,6 +54,8 @@ object RadioRepository {
 
     /** Conecta, lê o estado inicial e registra o listener. Chamar fora da main thread (faz IPC). */
     fun start() {
+        // Favoritos são locais (o veículo nunca os publica — ver [FavoritesStore]).
+        main.post { loadFavorites() }
         val ok = VehicleClient.ensureConnected()
         Log.i(RECON_TAG, "conectado=$ok")
         main.post { connected.value = ok }
@@ -64,14 +66,11 @@ object RadioRepository {
             if (v != null) main.post { apply(k, v) }
         }
         VehicleClient.registerListener(RadioKeys.ALL, listener)
-        // favoritos podem não estar em cache no boot — re-tenta a leitura depois
-        main.postDelayed({
-            io.execute {
-                listOf(RadioKeys.FM_FAVORITES, RadioKeys.AM_FAVORITES).forEach { k ->
-                    VehicleClient.getData(k)?.let { v -> main.post { apply(k, v) } }
-                }
-            }
-        }, 2500)
+    }
+
+    private fun loadFavorites() {
+        replace(favoritesFm, FavoritesStore.load(Band.FM))
+        replace(favoritesAm, FavoritesStore.load(Band.AM))
     }
 
     fun stop() = VehicleClient.unregisterListener(listener)
@@ -87,8 +86,7 @@ object RadioRepository {
             RadioKeys.PLAY_STATE -> playing.value = value?.trim() == "1"
             RadioKeys.SEARCH_STATE -> searching.value = value?.trim() == "1"
             RadioKeys.SEARCH_PROGRESS -> searchProgress.value = value?.trim()?.toIntOrNull() ?: 0
-            RadioKeys.FM_FAVORITES -> replace(favoritesFm, RadioCodec.parseStationList(value))
-            RadioKeys.AM_FAVORITES -> replace(favoritesAm, RadioCodec.parseStationList(value))
+            // FM_FAVORITES/AM_FAVORITES: o veículo nunca publica essas chaves — favoritos são locais.
             RadioKeys.FM_VALID -> replace(foundFm, RadioCodec.parseStationList(value))
             RadioKeys.AM_VALID -> replace(foundAm, RadioCodec.parseStationList(value))
             RadioKeys.MEDIA_VOLUME -> value?.trim()?.toIntOrNull()?.let { volume.value = it }
@@ -149,9 +147,11 @@ object RadioRepository {
         }
     }
 
-    fun favoriteCurrent() = io.execute {
-        // A ação de escrita exata ainda será confirmada no carro (ver recon).
-        VehicleClient.set(RadioKeys.FAVORITE_ACTION, "1")
+    /** Alterna a estação atual nos favoritos locais (o veículo não persiste favoritos de 3os). */
+    fun favoriteCurrent() {
+        val s = station.value ?: return
+        val updated = FavoritesStore.toggle(s.band, s.freqKHz)
+        replace(if (s.band == Band.AM) favoritesAm else favoritesFm, updated)
     }
 
     fun isFavorite(freqKHz: Int): Boolean = favorites().contains(freqKHz)

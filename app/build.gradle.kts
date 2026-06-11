@@ -12,8 +12,8 @@ android {
         applicationId = "br.com.redesurftank.havalradio"
         minSdk = 28
         targetSdk = 28
-        versionCode = 7
-        versionName = "0.3.4"
+        versionCode = 8
+        versionName = "0.3.5"
     }
 
     signingConfigs {
@@ -79,7 +79,4 @@ dependencies {
     implementation(libs.shizuku.provider)
     implementation(libs.hiddenapibypass)
     implementation(libs.gson)
-
-    // Cliente MediaBrowser/MediaController (favoritos + transport do com.android.car.radio)
-    implementation("androidx.media:media:1.7.0")
 }
