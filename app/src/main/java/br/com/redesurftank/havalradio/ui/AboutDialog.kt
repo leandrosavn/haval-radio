@@ -27,6 +27,7 @@ import br.com.redesurftank.havalradio.update.UpdateManager
 fun AboutDialog(onDismiss: () -> Unit) {
     val context = LocalContext.current
     var showRecon by remember { mutableStateOf(false) }
+    var showAudioFx by remember { mutableStateOf(false) }
     val checking = UpdateManager.checking.value
     val downloading = UpdateManager.downloading.value
     val progress = UpdateManager.progress.value
@@ -67,6 +68,7 @@ fun AboutDialog(onDismiss: () -> Unit) {
 
                 Spacer(Modifier.height(8.dp))
                 TextButton(onClick = { showRecon = true }) { Text("🔧 Diagnóstico (recon)") }
+                TextButton(onClick = { showAudioFx = true }) { Text("🔊 Teste EQ Android (audiofx)") }
             }
         },
         confirmButton = {
@@ -86,4 +88,5 @@ fun AboutDialog(onDismiss: () -> Unit) {
     )
 
     if (showRecon) ReconDialog(onDismiss = { showRecon = false })
+    if (showAudioFx) AudioFxDialog(onDismiss = { showAudioFx = false })
 }
