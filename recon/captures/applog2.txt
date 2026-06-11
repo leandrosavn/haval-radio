@@ -1,0 +1,243 @@
+﻿--------- beginning of main
+06-10 20:43:32.062  2124  7898 W BeanDataTrack : DataCacheManager: trackId:hu_custom_vims_dms_tired trackId.length:1PackingCycle_Num:200isOpenLocationSwitch:false
+06-10 20:43:32.258   495  1662 W RBSLibWrapper: PRINTF:000313645:0x16000405:3:STD-0-pcmsink PLAYING 000006121 A=2797ms B=-058ppm J=0025ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:32.617   495  1662 W RBSLibWrapper: PRINTF:000314004:0x16000405:3:STD-0-pcmsink PLAYING 000006128 A=2797ms B=-058ppm J=0017ms S=FBBICIC M=099 SL=-17dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:32.989   495  1662 W RBSLibWrapper: PRINTF:000314376:0x16000405:3:STD-0-pcmsink PLAYING 000006135 A=2797ms B=-058ppm J=0001ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:33.150   495  1540 E vendor.bosch.hardware.receiverbasesoftware@1.0-service: SBR CPU loading: 14
+06-10 20:43:33.305   443  1888 W AudioHalHWBosch: out_write :config.channels 6 ,channel mask 3, usecase 0. total writeten: 14745600. writtenOnce:14745600. bytes write:3072. ret:0. dataNum:19200. dataVal:19200. dataNormal:314.                     SysAmpIntVariant:1. data_analysis:-1965:4254:-2350:3918:-2679:3660.
+06-10 20:43:33.340   495  1662 W RBSLibWrapper: PRINTF:000314727:0x16000405:3:STD-0-pcmsink PLAYING 000006142 A=2797ms B=-058ppm J=0016ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:33.593   495  1662 W RBSLibWrapper: WRITE:000314980:0x14012114:3:001000400100600c00310011010000020500000171ec320000000000000000026402020015000000000000000000000000000000000000000000ff:0000003b:00000000
+06-10 20:43:33.593   495  1662 W RBSLibWrapper: Message Buffer R:: 00 10 00 40 01 00 60 0c 00 31 00 11 01 00 00 02 05 00 00 01 71 ec 32 00 00 00 00 00 00 00 00 02 64 02 02 00 15 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff 
+06-10 20:43:33.678   495  1662 W RBSLibWrapper: PRINTF:000315065:0x16000405:3:STD-0-pcmsink PLAYING 000006149 A=2797ms B=-058ppm J=0001ms S=FBBICIC M=099 SL=-19dB >|||||||||||||||||||||||||||------ AMFM
+--------- beginning of system
+06-10 20:43:33.854  2197  2197 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.bindService:1611 android.content.ContextWrapper.bindService:698 com.beans.map.navicontrol.NaviProxy.bindService:59 com.beans.map.navicontrol.NaviProxy.rebindService:74 com.beans.map.navicontrol.NaviProxy.access$000:36 
+06-10 20:43:33.855  1755  2475 W ActivityManager: Unable to start service Intent { cmp=com.beantechs.beanmap/com.beans.map.service.NaviService } U=0: not found
+06-10 20:43:33.974   495  1662 W RBSLibWrapper: PRINTF:000315360:0x16000405:3:STD-0-pcmsink PLAYING 000006155 A=2797ms B=-058ppm J=-004ms S=FBBICIC M=099 SL=-16dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:34.311   495  1662 W RBSLibWrapper: PRINTF:000315698:0x16000405:3:STD-0-pcmsink PLAYING 000006161 A=2797ms B=-058ppm J=-011ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:34.669   495  1662 W RBSLibWrapper: PRINTF:000316056:0x16000405:3:STD-0-pcmsink PLAYING 000006169 A=2797ms B=-058ppm J=0023ms S=FBBICIC M=099 SL=-16dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:35.030   495  1662 W RBSLibWrapper: PRINTF:000316417:0x16000405:3:STD-0-pcmsink PLAYING 000006176 A=2797ms B=-058ppm J=0019ms S=FBBICIC M=099 SL=-16dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:35.162   450  1486 W SBRAudio: Mark sbr state: 3, sbr_state_cnt: 81
+06-10 20:43:35.162   450  1486 W SBRAudio: Tuner output: f77df4c7fa27f321fc31f80dfc05003c
+06-10 20:43:35.284  2350  2392 W Its_IntelligentVehicleControlService: DeathRecipient: br.com.redesurftank.havalradio
+06-10 20:43:35.323   495  1662 W RBSLibWrapper: PRINTF:000316710:0x16000405:3:STD-0-pcmsink PLAYING 000006182 A=2797ms B=-058ppm J=0020ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:35.681   495  1662 W RBSLibWrapper: PRINTF:000317068:0x16000405:3:STD-0-pcmsink PLAYING 000006189 A=2797ms B=-058ppm J=0018ms S=FBBICIC M=099 SL=-17dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:35.758  1755  1775 W libprocessgroup: kill(-7632, 9) failed: No such process
+06-10 20:43:35.758  1755  2475 W ActivityManager: Force removing ActivityRecord{2d03ac5 u0 br.com.redesurftank.havalradio/.MainActivity t3597}: app died, no saved state
+06-10 20:43:35.760   493  1510 W SurfaceFlinger: Attempting to destroy on removed layer: AppWindowToken{948b34b token=Token{def3c1a ActivityRecord{2d03ac5 u0 br.com.redesurftank.havalradio/.MainActivity t3597}}}#0
+06-10 20:43:35.766  4651  4651 W AppList : MainActivity, onRestart
+06-10 20:43:35.768  4651  4946 W AppList : MainActivityViewModel, isCarPlayConnected :true
+06-10 20:43:35.768  4651  4946 W AppList : MainActivityViewModel, isCarPlayConnected :true
+06-10 20:43:35.768  3782  5099 E DeviceManager: getConnDevices, supportedCapability: 1728
+06-10 20:43:35.769  3782  5099 E DeviceManager: getConnDevices, queue devId:cf0be9fa1798085758 , capability: 321
+06-10 20:43:35.769  3782  5099 E DeviceManager: getConnDevices, queue devId:68:EF:DC:79:E3:4E , capability: 65542
+06-10 20:43:35.769  4651  4946 W AppList : AppListRepository, history device list size: 0
+06-10 20:43:35.769  3782  5099 E DeviceManager: getConnDevices, supportedCapability: 1728
+06-10 20:43:35.770  3782  5099 E DeviceManager: getConnDevices, queue devId:cf0be9fa1798085758 , capability: 321
+06-10 20:43:35.770  3782  5099 E DeviceManager: getConnDevices, queue devId:68:EF:DC:79:E3:4E , capability: 65542
+06-10 20:43:35.770  4651  4946 W AppList : AppListRepository, history device list size: 0
+06-10 20:43:35.771  4651  4946 W AppList : MainActivityViewModel, isUserEnv:true isShowCarPlay:true isShowAndAndroidAuto:true isUserEnvAndV61V71:false isUserEnvV61V71ES11:false
+06-10 20:43:35.771  4651  4946 W AppList : MainActivityViewModel, isCarPlayConnected :true
+06-10 20:43:35.771  3782  5099 E DeviceManager: getConnDevices, supportedCapability: 1728
+06-10 20:43:35.771  3782  5099 E DeviceManager: getConnDevices, queue devId:cf0be9fa1798085758 , capability: 321
+06-10 20:43:35.771  3782  5099 E DeviceManager: getConnDevices, queue devId:68:EF:DC:79:E3:4E , capability: 65542
+06-10 20:43:35.771  4651  4946 W AppList : AppListRepository, history device list size: 0
+06-10 20:43:35.773  1755  1773 W Looper  : Slow dispatch took 515ms android.ui h=com.android.server.am.ActivityManagerService$UiHandler c=null m=53
+06-10 20:43:35.773  1755  1773 W Looper  : Slow delivery took 486ms android.ui h=com.android.server.policy.PhoneWindowManager$PolicyHandler c=com.android.server.policy.PhoneWindowManager$19@bc3a8cf m=0
+06-10 20:43:35.773  1755  1773 W Looper  : Drained
+06-10 20:43:35.774  1755  6614 W ActivityManager: Spurious death for ProcessRecord{9350ff7 0:br.com.redesurftank.havalradio/u0a1003}, curProc for 7632: null
+06-10 20:43:35.775  1755  1755 W Looper  : Slow dispatch took 244ms main h=android.os.Handler c=android.app.AlarmManager$ListenerWrapper@ba6d965 m=0
+06-10 20:43:35.775  1755  1755 W Looper  : Slow delivery took 244ms main h=com.android.server.AlarmManagerService$AlarmHandler c=null m=4
+06-10 20:43:35.776  4651  4651 W AppList : MainActivity, appRecent observe: 4
+06-10 20:43:35.776  4651  4651 W AppList : RecentTaskAdapter, update recent Data size: 4
+06-10 20:43:35.776  4651  4651 W AppList : MainActivity, onMoveToEnd
+06-10 20:43:35.776  4651  4673 W AppList : TaskStackChangeListener, TaskStackListener, onTaskRemoved, taskId = 3597
+06-10 20:43:35.776  1755  1755 W Looper  : Drained
+06-10 20:43:35.777  2357  2357 E PhoneInterfaceManager: [PhoneIntfMgr] getCarrierPackageNamesForIntent: No UICC
+06-10 20:43:35.777  4651  4651 W AppList : MainActivity, appListInfoModels observe:13
+06-10 20:43:35.777  4651  4651 W AppList : updateAppListData 13
+06-10 20:43:35.778  4651  4651 W AppList : AppLauncherAdapter, updateData:[[AppInfoModel{appId='null', className='', appPackage='', appDefaultName='Android Auto', appNameID='', appDefaultIcon=android.graphics.drawable.BitmapDrawable@7550bfc, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=2, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}, AppInfoModel{appId='null', className='', appPackage='', appDefaultName='Apple CarPlay', appNameID='', appDefaultIcon=android.graphics.drawable.BitmapDrawable@9c51285, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=1, mIsCarPlayConnected=true, mAndroidAutoState=0, isCanEnable=true}, AppInfoModel{appId='vehicle_setting', className='com.beantechs.vehiclecenter.activity.MainActivity', appPackage='com.beantechs.vehiclecenter', appDefaultName='Configurações do veículo', appNameID='vehicle_setting', appDefaultIcon=android.graphics.drawable.BitmapDrawable@535c70d, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}, AppInfoModel{appId='system_setting', className='com.beantechs.settings.ui.activity.MainActivity', appPackage='com.beantechs.settings', appDefaultName='Configurações', appNameID='system_setting', appDefaultIcon=android.graphics.drawable.BitmapDrawable@b99e6c2, recentAppThumbNail=null, thumbnailId=0, taskId=3593, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}, AppInfoModel{appId='energy_consumption', className='com.beantechs.energyassistant.ui.MainActivity', appPackage='com.beantechs.energyassistant', appDefaultName='Assistente de consumo de energia', appNameID='energy_consumption', appDefaultIcon=android.graphics.drawable.BitmapDrawable@e28cd3, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}, AppInfoModel{appId='personal_center', className='com.beantechs.personalcenter.ui.personsetting.PersonMainActivity', appPackage='com.beantechs.personalcenter', appDefaultName='Centra
+06-10 20:43:35.778  4651  4651 W AppList : AppLauncherAdapter, l de usuários', appNameID='personal_center', appDefaultIcon=android.graphics.drawable.BitmapDrawable@5907010, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}], [AppInfoModel{appId='communication', className='com.beantechs.btphone.activity.MainActivity', appPackage='com.beantechs.btphone', appDefaultName='Telefone', appNameID='communication', appDefaultIcon=android.graphics.drawable.BitmapDrawable@d04c709, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}, AppInfoModel{appId='null', className='moe.shizuku.manager.MainActivity', appPackage='moe.shizuku.privileged.api', appDefaultName='Shizuku', appNameID='', appDefaultIcon=android.graphics.drawable.AdaptiveIconDrawable@ba822ab, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}, AppInfoModel{appId='null', className='com.waze.FreeMapAppActivity', appPackage='com.waze', appDefaultName='Waze', appNameID='', appDefaultIcon=android.graphics.drawable.AdaptiveIconDrawable@c690d08, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}, AppInfoModel{appId='null', className='br.com.redesurftank.havalradio.MainActivity', appPackage='br.com.redesurftank.havalradio', appDefaultName='Haval Radio', appNameID='', appDefaultIcon=android.graphics.drawable.AdaptiveIconDrawable@6e32ca1, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}, AppInfoModel{appId='null', className='com.aurora.store.MainActivity', appPackage='com.aurora.store', appDefaultName='Aurora Store', appNameID='', appDefaultIcon=android.graphics.drawable.AdaptiveIconDrawable@bd93ec6, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanE
+06-10 20:43:35.778  4651  4651 W AppList : AppLauncherAdapter, nable=true}, AppInfoModel{appId='null', className='br.com.redesurftank.havalclimatecontrol.MainActivity', appPackage='br.com.redesurftank.havalclimatecontrol', appDefaultName='Haval Climate Control', appNameID='', appDefaultIcon=android.graphics.drawable.AdaptiveIconDrawable@fc43e87, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}], [AppInfoModel{appId='null', className='br.com.redesurftank.havalshisuku.SplashActivity', appPackage='br.com.redesurftank.havalshisuku', appDefaultName='Haval Impulse', appNameID='', appDefaultIcon=android.graphics.drawable.AdaptiveIconDrawable@505f1b4, recentAppThumbNail=null, thumbnailId=0, taskId=0, appType=0, mIsCarPlayConnected=false, mAndroidAutoState=0, isCanEnable=true}]]
+06-10 20:43:35.778  1983  1983 W BeanSystemUILog: BeanCarNavigationBarView, onTopActivityChange,packageName:com.beantechs.applist,className:com.beantechs.applist.MainActivity
+06-10 20:43:35.779  1983  1983 W BeanSystemUILog: InterconnectionView, onTopActivityChange,packageName:com.beantechs.applist,className:com.beantechs.applist.MainActivity
+06-10 20:43:35.779  1755  1780 W ActivityManager: setHasOverlayUi called on unknown pid: 7632
+06-10 20:43:35.779  1983  1983 W BeanSystemUILog: BeanCarNavigationBarView, updateApplistBtn isLogined=true mFocusAppClassName=com.beantechs.applist.MainActivity
+06-10 20:43:35.779  1983  1983 W BeanSystemUILog: StatusBar, mStatusBarWindow: com.android.systemui.statusbar.phone.StatusBarWindowView{9efad6c V.E...... ........ 0,0-1920,60} canPanelBeCollapsed(): false
+06-10 20:43:35.787  3648  3648 W IqqiInputType: not support field: isNull:1 imeHide:0 isNotSupportEmoji:0
+06-10 20:43:35.797  1983  1983 W BeanSystemUILog: StatusBar, setSystemUiVisibility vis=800c mask=ffffffff oldVal=8008 newVal=800c diff=4 mIsNightMode=true
+06-10 20:43:35.813  4651  4651 W AppList : MainActivity, onResume
+06-10 20:43:35.814  4651  4651 W AppList : MainActivity, isChangeLanguage:false----isSavingBitmap:false
+06-10 20:43:35.815  2124  2459 W BeanDataTrack : DataCacheManager: trackId:hu_page_panel_applist_0 trackId.length:2PackingCycle_Num:200isOpenLocationSwitch:false
+06-10 20:43:35.818  4651  4651 W AppList : AppListSystemUiManager, onSystemUiVisibilityChange, visibility:4  hasWindowFocus:true
+06-10 20:43:35.821  3648  3648 W IqqiInputType: not support field: isNull:1 imeHide:0 isNotSupportEmoji:0
+06-10 20:43:35.837  1755  1816 W WindowManager: Moving IM target from null to null since mInputMethodWindow is null
+06-10 20:43:35.838  1755  1816 W WindowManager: Moving IM target from null to null since mInputMethodWindow is null
+06-10 20:43:35.852  1755  2475 W InputMethodManagerService: Starting input on non-focused client com.android.internal.view.IInputMethodClient$Stub$Proxy@38a569c (uid=10052 pid=3154)
+06-10 20:43:35.860  3854  3869 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcast:1005 android.content.ContextWrapper.sendBroadcast:444 com.ts.carplay.app.service.model.video.VideoModel.finishCarPlayActivity:632 com.ts.carplay.app.service.model.video.VideoModel.foregroundViewChanged:505 com.ts.carplay.app.service.model.video.VideoModel.access$2500:61 
+06-10 20:43:35.860  4651  5934 W AppList : AppModelLoader, onTaskStackChangedBackground id:3594, packageName:com.beantechs.applist
+06-10 20:43:35.860  4651  5934 W AppList : AppModelLoader, changed task is appList!
+06-10 20:43:35.860  4651  5934 W AppList : AppModelLoader, createNewAppINfoModel->isAvailableApp:false
+06-10 20:43:35.860  4651  5934 W AppList : AppModelLoader, createNewAppInfoModel is null!
+06-10 20:43:35.861  3854  3869 W CarPlay : VideoModel FocusModeInfoList[0] :  focus: com.beantechs.applist priority: 0 borrowId: 
+06-10 20:43:35.866  4651  4651 W AppList : MainActivity, onMoveToEnd
+06-10 20:43:35.907  4651  4651 W AppList : MainActivity, onPause
+06-10 20:43:35.908  4651  5934 W AppList : TaskStackChangeListener, TaskStackListener, onTaskCreated, taskId = 3598, componentName = ComponentInfo{br.com.redesurftank.havalradio/br.com.redesurftank.havalradio.MainActivity}
+06-10 20:43:35.909  2124  2459 W BeanDataTrack : DataCacheManager: trackId:hu_page_panel_applist_1 trackId.length:3PackingCycle_Num:200isOpenLocationSwitch:false
+06-10 20:43:35.911  1983  1983 W BeanSystemUILog: BeanCarNavigationBarView, onTopActivityChange,packageName:br.com.redesurftank.havalradio,className:br.com.redesurftank.havalradio.MainActivity
+06-10 20:43:35.911  1983  1983 W BeanSystemUILog: InterconnectionView, onTopActivityChange,packageName:br.com.redesurftank.havalradio,className:br.com.redesurftank.havalradio.MainActivity
+06-10 20:43:35.911  1983  1983 W BeanSystemUILog: BeanCarNavigationBarView, updateApplistBtn isLogined=true mFocusAppClassName=br.com.redesurftank.havalradio.MainActivity
+06-10 20:43:35.911  1983  1983 W BeanSystemUILog: StatusBar, mStatusBarWindow: com.android.systemui.statusbar.phone.StatusBarWindowView{9efad6c V.E...... ........ 0,0-1920,60} canPanelBeCollapsed(): false
+06-10 20:43:35.912  1755  1816 W WindowManager: Moving IM target from null to null since mInputMethodWindow is null
+06-10 20:43:35.931  1983  1983 W BeanSystemUILog: StatusBar, setSystemUiVisibility vis=8008 mask=ffffffff oldVal=800c newVal=8008 diff=4 mIsNightMode=true
+06-10 20:43:35.939  4651  4651 W AppList : AppListSystemUiManager, onSystemUiVisibilityChange, visibility:0  hasWindowFocus:false
+06-10 20:43:35.942  3648  3648 W IqqiInputType: not support field: isNull:1 imeHide:0 isNotSupportEmoji:0
+06-10 20:43:35.961  8101  8101 E tank.havalradi: Not starting debugger since process cannot load the jdwp agent.
+06-10 20:43:35.993  4651  4651 W AppList : AppModelLoader, Task Snapshot Changed，snapshot:com.beantechs.appcenter.model.ThumbnailData@48ceb2e taskId equal appListId:true
+06-10 20:43:36.004  4651  4651 W AppList : MainActivity, onMoveToEnd
+06-10 20:43:36.004  8101  8101 W tank.havalradi: Unsupported class loader
+06-10 20:43:36.011  4651  4673 W AppList : AppModelLoader, onTaskStackChangedBackground id:3598, packageName:br.com.redesurftank.havalradio
+06-10 20:43:36.011  4651  4673 W AppList : AppModelLoader, createNewAppINfoModel->isAvailableApp:true
+06-10 20:43:36.011  4651  4673 W AppList : AppModelLoader, the changed appInfo is not based on fotaUi, recent App will be Refresh
+06-10 20:43:36.015  3854  3869 W CarPlay : VideoModel FocusModeInfoList[0] :  focus: br.com.redesurftank.havalradio priority: 0 borrowId: 
+06-10 20:43:36.015   495  1662 W RBSLibWrapper: PRINTF:000317402:0x16000405:3:STD-0-pcmsink PLAYING 000006196 A=2797ms B=-058ppm J=-004ms S=FBBICIC M=099 SL=-16dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:36.020  4651  4651 W AppList : MainActivityViewModel, backToRootFlow  
+06-10 20:43:36.042  2350  2392 W Its_IntelligentVehicleControlService:    ├ Pid -> 3231
+06-10 20:43:36.042  2350  2392 W Its_IntelligentVehicleControlService:    ├ FETCH_DATA
+06-10 20:43:36.042  2350  2392 W Its_IntelligentVehicleControlService:    ├ key -> sys.radio.cur_channel_info
+06-10 20:43:36.042  2350  2392 W Its_IntelligentVehicleControlService:    ├ result -> {94700,0,1,1}
+06-10 20:43:36.045  2350  2392 W Its_IntelligentVehicleControlService:    ├ Pid -> 3231
+06-10 20:43:36.045  2350  2392 W Its_IntelligentVehicleControlService:    ├ FETCH_DATA
+06-10 20:43:36.045  2350  2392 W Its_IntelligentVehicleControlService:    ├ key -> sys.radio.play_state
+06-10 20:43:36.047  2350  2392 W Its_IntelligentVehicleControlService:    ├ result -> 1
+06-10 20:43:36.047  2350  2392 W Its_IntelligentVehicleControlService:    ├ Pid -> 3231
+06-10 20:43:36.047  2350  2392 W Its_IntelligentVehicleControlService:    ├ FETCH_DATA
+06-10 20:43:36.047  2350  2392 W Its_IntelligentVehicleControlService:    ├ key -> sys.radio.search_state
+06-10 20:43:36.048  2350  2392 W Its_IntelligentVehicleControlService:    ├ result -> 0
+06-10 20:43:36.048  2350  2392 W Its_IntelligentVehicleControlService:    ├ Pid -> 3231
+06-10 20:43:36.048  2350  2392 W Its_IntelligentVehicleControlService:    ├ FETCH_DATA
+06-10 20:43:36.048  2350  2392 W Its_IntelligentVehicleControlService:    ├ key -> sys.radio.search_progress
+06-10 20:43:36.051  2003  2620 E AutoLinkAdapter_CmdManager: get: can't find dataId sys.radio.search_progress
+06-10 20:43:36.052  2350  2392 W Its_IntelligentVehicleControlService:    ├ result -> null
+06-10 20:43:36.056  2350  2392 W Its_IntelligentVehicleControlService:    ├ Pid -> 3231
+06-10 20:43:36.056  2350  2392 W Its_IntelligentVehicleControlService:    ├ FETCH_DATA
+06-10 20:43:36.056  2350  2392 W Its_IntelligentVehicleControlService:    ├ key -> sys.radio.fm_favorites_station_list
+06-10 20:43:35.987  1755  1816 W WindowManager: Moving IM target from null to null since mInputMethodWindow is null
+06-10 20:43:36.056  1755  6610 W WindowManager: Moving IM target from null to null since mInputMethodWindow is null
+06-10 20:43:36.058  2350  2392 W Its_IntelligentVehicleControlService:    ├ result -> {-1,-1,-1,-1,-1,-1}
+06-10 20:43:36.058  2350  2392 W Its_IntelligentVehicleControlService:    ├ Pid -> 3231
+06-10 20:43:36.058  2350  2392 W Its_IntelligentVehicleControlService:    ├ FETCH_DATA
+06-10 20:43:36.058  2350  2392 W Its_IntelligentVehicleControlService:    ├ key -> sys.radio.am_favorites_station_list
+06-10 20:43:36.059  2350  2392 W Its_IntelligentVehicleControlService:    ├ result -> {-1,-1,-1,-1,-1,-1}
+06-10 20:43:36.060  2350  2392 W Its_IntelligentVehicleControlService:    ├ Pid -> 3231
+06-10 20:43:36.060  2350  2392 W Its_IntelligentVehicleControlService:    ├ FETCH_DATA
+06-10 20:43:36.060  2350  2392 W Its_IntelligentVehicleControlService:    ├ key -> sys.radio.fm_valid_station_list
+06-10 20:43:36.062  2350  2392 W Its_IntelligentVehicleControlService:    ├ result -> {92900,89700,88100,91300,97700,104100,96100,100900,107300,94700,77100,99500,90100,96500,98100,93300,107900,106300,100100,103300,90500,101700,96900,95300,85900,90900,94100,92500,97300,76700}
+06-10 20:43:36.063  2350  2392 W Its_IntelligentVehicleControlService:    ├ Pid -> 3231
+06-10 20:43:36.063  2350  2392 W Its_IntelligentVehicleControlService:    ├ FETCH_DATA
+06-10 20:43:36.063  2350  2392 W Its_IntelligentVehicleControlService:    ├ key -> sys.radio.am_valid_station_list
+06-10 20:43:36.066  2350  2392 W Its_IntelligentVehicleControlService:    ├ result -> {}
+06-10 20:43:36.068  2350  2392 W Its_IntelligentVehicleControlService:    ├ Pid -> 3231
+06-10 20:43:36.068  2350  2392 W Its_IntelligentVehicleControlService:    ├ FETCH_DATA
+06-10 20:43:36.068  2350  2392 W Its_IntelligentVehicleControlService:    ├ key -> sys.settings.audio.media_volume
+06-10 20:43:36.069  2350  2392 W Its_IntelligentVehicleControlService:    ├ result -> 8
+06-10 20:43:36.070  2350  2379 W Its_IntelligentVehicleControlService:    ├ Pid -> 3231
+06-10 20:43:36.070  2350  2379 W Its_IntelligentVehicleControlService:    ├ FETCH_DATA
+06-10 20:43:36.070  2350  2379 W Its_IntelligentVehicleControlService:    ├ key -> sys.settings.audio.media_volume_range
+06-10 20:43:36.070  2350  2379 W Its_IntelligentVehicleControlService:    ├ result -> {0,39}
+06-10 20:43:36.071  2350  2379 W Its_IntelligentVehicleControlService:    ├ ADD_LISTENER_KEY
+06-10 20:43:36.071  2350  2379 W Its_IntelligentVehicleControlService:    ├ pkg -> br.com.redesurftank.havalradio
+06-10 20:43:36.071  2350  2379 W Its_IntelligentVehicleControlService:    ├ keys -> [sys.radio.cur_channel_info, sys.radio.play_state, sys.radio.search_state, sys.radio.search_progress, sys.radio.fm_favorites_station_list, sys.radio.am_favorites_station_list, sys.radio.fm_valid_station_list, sys.radio.am_valid_station_list, sys.settings.audio.media_volume, sys.settings.audio.media_volume_range]
+06-10 20:43:36.073  2350  2379 W Its_IntelligentVehicleControlService: registerDataChangedListener: pkgName br.com.redesurftank.havalradio, 
+06-10 20:43:36.121  2124  4900 W BeanDataTrack : DataPackManager: run data packing task CachePackageSize:0CacheDataSize3
+06-10 20:43:36.123  2124  4900 W BeanDataTrack : UploadStorageManager: writeData success,file:20260610204336_default.json.gz.enc,mAvalibleStoageSize:51200,cacheSize:1,mDataPartitionOverflowWarn:false
+06-10 20:43:36.238  3231  8122 E TransferThread: java.io.IOException: Stream closed
+06-10 20:43:36.238  3231  8122 E TransferThread: 	at java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:172)
+06-10 20:43:36.238  3231  8122 E TransferThread: 	at java.io.BufferedInputStream.read(BufferedInputStream.java:338)
+06-10 20:43:36.238  3231  8122 E TransferThread: 	at java.io.FilterInputStream.read(FilterInputStream.java:107)
+06-10 20:43:36.238  3231  8122 E TransferThread: 	at rikka.shizuku.Jj.run(SourceFile:9)
+06-10 20:43:36.238  3231  8124 E TransferThread: java.io.IOException: Stream closed
+06-10 20:43:36.238  3231  8124 E TransferThread: 	at java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:172)
+06-10 20:43:36.238  3231  8124 E TransferThread: 	at java.io.BufferedInputStream.read(BufferedInputStream.java:338)
+06-10 20:43:36.238  3231  8124 E TransferThread: 	at java.io.FilterInputStream.read(FilterInputStream.java:107)
+06-10 20:43:36.238  3231  8124 E TransferThread: 	at rikka.shizuku.Jj.run(SourceFile:9)
+06-10 20:43:36.252  3231  8128 E TransferThread: java.io.IOException: Stream closed
+06-10 20:43:36.252  3231  8128 E TransferThread: 	at java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:172)
+06-10 20:43:36.252  3231  8128 E TransferThread: 	at java.io.BufferedInputStream.read(BufferedInputStream.java:338)
+06-10 20:43:36.252  3231  8128 E TransferThread: 	at java.io.FilterInputStream.read(FilterInputStream.java:107)
+06-10 20:43:36.252  3231  8128 E TransferThread: 	at rikka.shizuku.Jj.run(SourceFile:9)
+06-10 20:43:36.252  3231  8126 E TransferThread: java.io.IOException: Stream closed
+06-10 20:43:36.252  3231  8126 E TransferThread: 	at java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:172)
+06-10 20:43:36.252  3231  8126 E TransferThread: 	at java.io.BufferedInputStream.read(BufferedInputStream.java:338)
+06-10 20:43:36.252  3231  8126 E TransferThread: 	at java.io.FilterInputStream.read(FilterInputStream.java:107)
+06-10 20:43:36.252  3231  8126 E TransferThread: 	at rikka.shizuku.Jj.run(SourceFile:9)
+06-10 20:43:36.296  8101  8120 W Adreno-GSL_RPC: <gsl_dbq_create:2897>: HGSL:gsl_dbq_create failed, ret: -6
+06-10 20:43:36.310  8101  8120 W AdrenoUtils: <ReadGpuID_from_sysfs:198>: Failed to open /sys/class/kgsl/kgsl-3d0/gpu_model
+06-10 20:43:36.310  8101  8120 W AdrenoUtils: <ReadGpuID:222>: Failed to read chip ID from gpu_model. Fallback to use the GSL path
+06-10 20:43:36.315   443  4083 W AudioHalHWBosch: in_read: 2048 bytes read in  in_read(). frame_size:8. frames_read:4838400. readOnce:4838400.out frame count:256. dataNum:18899. dataVal:18900. dataNormal:307. dataExt:313.dataLastValue:157. dateSame:0.                 SysAmpIntVariant:1. data_analysis:70:-87:132:45.
+06-10 20:43:36.320  8101  8120 W OpenGLRenderer: amy0204 =====  EglManager::initialize
+06-10 20:43:36.331  8101  8120 W Adreno-GSL_RPC: <gsl_dbq_create:2897>: HGSL:gsl_dbq_create failed, ret: -6
+06-10 20:43:36.365   495  1662 W RBSLibWrapper: PRINTF:000317752:0x16000405:3:STD-0-pcmsink PLAYING 000006203 A=2797ms B=-058ppm J=-008ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:36.497  1755  1816 W WindowManager: Moving IM target from null to null since mInputMethodWindow is null
+06-10 20:43:36.570  3648  3648 W IqqiInputType: not support field: isNull:1 imeHide:0 isNotSupportEmoji:0
+06-10 20:43:36.607  4651  4651 W AppList : MainActivity, onStop
+06-10 20:43:36.614  1755  5265 E Adreno-GSL_RPC: <gsl_rpc_get_arg_ptr:184>: @40: argument type or size mismatch: call id 1 payload size 24 recv magic 0xFFFFFFFF vs req 0xFEEDDA7A recv id 0 vs req id 1, recv size 0 vs req size 4
+06-10 20:43:36.733   493  1505 W SurfaceFlinger: Attempting to set client state on removed layer: Splash Screen br.com.redesurftank.havalradio#0
+06-10 20:43:36.733   493  1505 W SurfaceFlinger: Attempting to destroy on removed layer: Splash Screen br.com.redesurftank.havalradio#0
+06-10 20:43:36.735   495  1662 W RBSLibWrapper: PRINTF:000318122:0x16000405:3:STD-0-pcmsink PLAYING 000006210 A=2797ms B=-058ppm J=-022ms S=FBBICIC M=099 SL=-14dB >|||||||||||||||||||||||||||||---- AMFM
+06-10 20:43:36.776  1755  5265 W Adreno-GSL_RPC: <gsl_dbq_create:2897>: HGSL:gsl_dbq_create failed, ret: -6
+06-10 20:43:36.786  1755  5265 W OpenGLRenderer: amy0204 =====  EglManager::initialize
+06-10 20:43:36.793  1755  5265 W Adreno-GSL_RPC: <gsl_dbq_create:2897>: HGSL:gsl_dbq_create failed, ret: -6
+06-10 20:43:36.855  2197  2197 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.bindService:1611 android.content.ContextWrapper.bindService:698 com.beans.map.navicontrol.NaviProxy.bindService:59 com.beans.map.navicontrol.NaviProxy.rebindService:74 com.beans.map.navicontrol.NaviProxy.access$000:36 
+06-10 20:43:36.856  1755  8087 W ActivityManager: Unable to start service Intent { cmp=com.beantechs.beanmap/com.beans.map.service.NaviService } U=0: not found
+06-10 20:43:36.871  4651  4651 W AppList : MainActivityViewModel, infoModelInsertOrChange  br.com.redesurftank.havalradio
+06-10 20:43:36.871  4651  4651 W AppList : MainActivityViewModel, 点击的App已经启动，变换位置到0
+06-10 20:43:37.088   495  1662 W RBSLibWrapper: PRINTF:000318475:0x16000405:3:STD-0-pcmsink PLAYING 000006217 A=2797ms B=-058ppm J=-009ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:37.204  3154  3189 W ForegroundService: Background to keep unlocking iptables
+06-10 20:43:37.211  3154  3189 W IpTablesUtils: [IpTablesUtils]: OUTPUT chain in iptables is already unlocked
+06-10 20:43:37.211  3231  8135 E TransferThread: java.io.IOException: Stream closed
+06-10 20:43:37.211  3231  8135 E TransferThread: 	at java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:172)
+06-10 20:43:37.211  3231  8135 E TransferThread: 	at java.io.BufferedInputStream.read(BufferedInputStream.java:338)
+06-10 20:43:37.211  3231  8135 E TransferThread: 	at java.io.FilterInputStream.read(FilterInputStream.java:107)
+06-10 20:43:37.211  3231  8135 E TransferThread: 	at rikka.shizuku.Jj.run(SourceFile:9)
+06-10 20:43:37.211  3231  8137 E TransferThread: java.io.IOException: Stream closed
+06-10 20:43:37.211  3231  8137 E TransferThread: 	at java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:172)
+06-10 20:43:37.211  3231  8137 E TransferThread: 	at java.io.BufferedInputStream.read(BufferedInputStream.java:338)
+06-10 20:43:37.211  3231  8137 E TransferThread: 	at java.io.FilterInputStream.read(FilterInputStream.java:107)
+06-10 20:43:37.211  3231  8137 E TransferThread: 	at rikka.shizuku.Jj.run(SourceFile:9)
+06-10 20:43:37.224  3154  3189 W IpTablesUtils: [IpTablesUtils]: INPUT chain in iptables is already unlocked
+06-10 20:43:37.224  3231  8141 E TransferThread: java.io.IOException: Stream closed
+06-10 20:43:37.224  3231  8141 E TransferThread: 	at java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:172)
+06-10 20:43:37.224  3231  8141 E TransferThread: 	at java.io.BufferedInputStream.read(BufferedInputStream.java:338)
+06-10 20:43:37.224  3231  8141 E TransferThread: 	at java.io.FilterInputStream.read(FilterInputStream.java:107)
+06-10 20:43:37.224  3231  8141 E TransferThread: 	at rikka.shizuku.Jj.run(SourceFile:9)
+06-10 20:43:37.426   495  1662 W RBSLibWrapper: PRINTF:000318813:0x16000405:3:STD-0-pcmsink PLAYING 000006224 A=2797ms B=-058ppm J=-001ms S=FBBICIC M=099 SL=-14dB >|||||||||||||||||||||||||||||---- AMFM
+06-10 20:43:37.787   495  1662 W RBSLibWrapper: PRINTF:000319174:0x16000405:3:STD-0-pcmsink PLAYING 000006231 A=2797ms B=-058ppm J=-012ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:37.974  4651  4651 W AppList : AppListSystemUiManager, systemUiVisibilitySetRunnable, setSystemUiVisibility to 4
+06-10 20:43:38.082   495  1662 W RBSLibWrapper: PRINTF:000319469:0x16000405:3:STD-0-pcmsink PLAYING 000006237 A=2797ms B=-058ppm J=0013ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:38.105   443  1888 W AudioHalHWBosch: out_write :config.channels 6 ,channel mask 3, usecase 0. total writeten: 14976000. writtenOnce:14976000. bytes write:3072. ret:0. dataNum:19500. dataVal:19500. dataNormal:319.                     SysAmpIntVariant:1. data_analysis:8871:9859:9636:10622:10129:11176.
+06-10 20:43:38.462   495  1662 W RBSLibWrapper: PRINTF:000319849:0x16000405:3:STD-0-pcmsink PLAYING 000006245 A=2797ms B=-058ppm J=-003ms S=FBBICIC M=099 SL=-18dB >|||||||||||||||||||||||||||------ AMFM
+06-10 20:43:38.586   495  1662 W RBSLibWrapper: WRITE:000319973:0x14012114:3:001000400100600c00310011010000020500000171ec320000000000000000026402020015000000000000000000000000000000000000000000ff:0000003b:00000000
+06-10 20:43:38.586   495  1662 W RBSLibWrapper: Message Buffer R:: 00 10 00 40 01 00 60 0c 00 31 00 11 01 00 00 02 05 00 00 01 71 ec 32 00 00 00 00 00 00 00 00 02 64 02 02 00 15 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff 
+06-10 20:43:38.774   495  1662 W RBSLibWrapper: PRINTF:000320161:0x16000405:3:STD-0-pcmsink PLAYING 000006251 A=2797ms B=-058ppm J=0023ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:39.110   495  1662 W RBSLibWrapper: PRINTF:000320497:0x16000405:3:STD-0-pcmsink PLAYING 000006257 A=2797ms B=-058ppm J=0000ms S=FBBICIC M=099 SL=-19dB >|||||||||||||||||||||||||||------ AMFM
+06-10 20:43:39.490   495  1662 W RBSLibWrapper: PRINTF:000320877:0x16000405:3:STD-0-pcmsink PLAYING 000006265 A=2797ms B=-058ppm J=0000ms S=FBBICIC M=099 SL=-14dB >|||||||||||||||||||||||||||||---- AMFM
+06-10 20:43:39.812   495  1662 W RBSLibWrapper: PRINTF:000321199:0x16000405:3:STD-0-pcmsink PLAYING 000006272 A=2797ms B=-058ppm J=0013ms S=FBBICIC M=099 SL=-16dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:39.857  2197  2197 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.bindService:1611 android.content.ContextWrapper.bindService:698 com.beans.map.navicontrol.NaviProxy.bindService:59 com.beans.map.navicontrol.NaviProxy.rebindService:74 com.beans.map.navicontrol.NaviProxy.access$000:36 
+06-10 20:43:39.857  1755  2474 W ActivityManager: Unable to start service Intent { cmp=com.beantechs.beanmap/com.beans.map.service.NaviService } U=0: not found
+06-10 20:43:40.092  2124  4895 W BeanDataTrack : BeanPlatformAccessUtil: generateSignKey:POST/v1/buriedData/uploadbt-auth-appkey:*******4036bt-auth-nonce:77c7adb025d6dd3ebt-auth-timestamp:17811350200922b125bec0d84e4fe1b1cb860972aa1d7
+06-10 20:43:40.092  2124  4895 W BeanDataTrack : UploadDataManager: UploadThread,upload method:/v1/buriedData/upload,upload url:https://br-data-upload-gateway.gwmcloud.com/bt-dataupload-api/v1/buriedData/uploadgenerateSignKeyf953e31cbb15a4fcfbf409938e1058ac68365f3bdca4ef95a2a67ad70c48e221
+06-10 20:43:40.126   495  1662 W RBSLibWrapper: PRINTF:000321513:0x16000405:3:STD-0-pcmsink PLAYING 000006278 A=2797ms B=-058ppm J=-003ms S=FBBICIC M=099 SL=-16dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:40.194   450  1486 W SBRAudio: Mark sbr state: 3, sbr_state_cnt: 82
+06-10 20:43:40.194   450  1486 W SBRAudio: Tuner output: f9780a59fb3f0a64fe910c3402200edf
+06-10 20:43:40.194   450  1486 W SBRAudio: Mark sbr state: 3, sbr_state_cnt: 83
+06-10 20:43:40.194   450  1486 W SBRAudio: Tuner output: d4d0e8ecd80ced9cd9cdf1e2d78df27d
+06-10 20:43:40.195   450  1486 W SBRAudio: Mark sbr state: 3, sbr_state_cnt: 84
+06-10 20:43:40.195   450  1486 W SBRAudio: Tuner output: eb2dfe7aea29ff28e9ef0032eac0016d
+06-10 20:43:40.203  2124  4895 W BeanDataTrack : UploadDataManager: UploadThread,upload failed,fileName:20260610204336_default.json.gz.enc,response:Response{protocol=http/1.1, code=503, message=Service Temporarily Unavailable, url=https://br-data-upload-gateway.gwmcloud.com/bt-dataupload-api/v1/buriedData/upload}
+06-10 20:43:40.481   495  1662 W RBSLibWrapper: PRINTF:000321867:0x16000405:3:STD-0-pcmsink PLAYING 000006285 A=2797ms B=-058ppm J=-007ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:40.796   495  1662 W RBSLibWrapper: PRINTF:000322182:0x16000405:3:STD-0-pcmsink PLAYING 000006292 A=2797ms B=-058ppm J=0036ms S=FBBICIC M=099 SL=-16dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:41.115   443  4083 W AudioHalHWBosch: in_read: 2048 bytes read in  in_read(). frame_size:8. frames_read:4915200. readOnce:4915200.out frame count:256. dataNum:19199. dataVal:19200. dataNormal:312. dataExt:318.dataLastValue:60. dateSame:0.                 SysAmpIntVariant:1. data_analysis:55:-5:30:41.
+06-10 20:43:41.131   495  1662 W RBSLibWrapper: PRINTF:000322518:0x16000405:3:STD-0-pcmsink PLAYING 000006298 A=2797ms B=-058ppm J=0029ms S=FBBICIC M=099 SL=-15dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:41.489   495  1662 W RBSLibWrapper: PRINTF:000322876:0x16000405:3:STD-0-pcmsink PLAYING 000006305 A=2797ms B=-058ppm J=0005ms S=FBBICIC M=099 SL=-16dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:41.833   495  1662 W RBSLibWrapper: PRINTF:000323220:0x16000405:3:STD-0-pcmsink PLAYING 000006312 A=2797ms B=-058ppm J=0019ms S=FBBICIC M=099 SL=-16dB >||||||||||||||||||||||||||||----- AMFM
+06-10 20:43:42.167   495  1662 W RBSLibWrapper: PRINTF:000323554:0x16000405:3:STD-0-pcmsink PLAYING 000006319 A=2797ms B=-057ppm J=0016ms S=FBBICIC M=099 SL=-16dB >||||||||||||||||||||||||||||----- AMFM
