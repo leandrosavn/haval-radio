@@ -45,11 +45,9 @@ fun FavoritesPanel(
     found: List<Int>,
     band: Band,
     currentFreq: Int?,
-    version: String,
     editing: Boolean,
     onToggleEdit: () -> Unit,
     onSaveCurrent: () -> Unit,
-    onAbout: () -> Unit,
     onTune: (Int) -> Unit,
     onRemove: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -79,8 +77,6 @@ fun FavoritesPanel(
                 active = editing,
                 onClick = onToggleEdit,
             )
-            Spacer(Modifier.width(8.dp))
-            VersionButton(version, onAbout)
         }
 
         // grid de presets

@@ -44,11 +44,13 @@ fun RadioScreen() {
         // O SO desenha a barra de status na esquerda (~96px); o app começa depois dela.
         Column(Modifier.fillMaxSize().padding(start = 28.dp, top = 16.dp, end = 20.dp, bottom = 16.dp)) {
 
-            // topbar: FM/AM + pílulas (Sinal não existe na central; só Estéreo é real)
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            // topbar: FM/AM + pílulas (Sinal não existe na central; só Estéreo é real) + versão à direita
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 BandSegment(band) { RadioRepository.setBand(it) }
                 InfoPill(if (connected) "Conectado" else "Sem conexão (Shizuku?)", accent = connected)
                 if (st?.stereo == true) InfoPill("Estéreo", accent = true)
+                Spacer(Modifier.weight(1f))
+                VersionButton(UpdateManager.currentVersion) { showAbout = true }
             }
 
             Spacer(Modifier.height(16.dp))
@@ -72,11 +74,9 @@ fun RadioScreen() {
                     found = found,
                     band = band,
                     currentFreq = st?.freqKHz,
-                    version = UpdateManager.currentVersion,
                     editing = editing,
                     onToggleEdit = { editing = !editing },
                     onSaveCurrent = { RadioRepository.favoriteCurrent() },
-                    onAbout = { showAbout = true },
                     onTune = { RadioRepository.tune(it) },
                     onRemove = { RadioRepository.removeFavorite(it) },
                     modifier = Modifier.width(520.dp).fillMaxHeight(),
