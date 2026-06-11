@@ -9,7 +9,8 @@ import java.util.Locale
  * banda: 0 = FM (passo 100 kHz), 1 = AM (passo 10 kHz).
  */
 enum class Band(val code: Int, val min: Int, val max: Int, val step: Int) {
-    FM(0, 87_500, 108_000, 100),
+    // FM começa em 76.0: a central tem a faixa estendida (eFM) usada no Brasil (76.1–87.5 + 87.5–108).
+    FM(0, 76_000, 108_000, 100),
     AM(1, 530, 1_710, 10);
 
     companion object {
