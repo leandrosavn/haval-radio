@@ -46,4 +46,12 @@ object FavoritesStore {
         save(band, list)
         return list
     }
+
+    /** Remove um favorito; retorna a nova lista. */
+    fun remove(band: Band, freqKHz: Int): List<Int> {
+        val list = load(band).toMutableList()
+        list.remove(freqKHz)
+        save(band, list)
+        return list
+    }
 }

@@ -154,6 +154,12 @@ object RadioRepository {
         replace(if (s.band == Band.AM) favoritesAm else favoritesFm, updated)
     }
 
+    /** Remove um favorito (modo editar). */
+    fun removeFavorite(freqKHz: Int, b: Band = band) {
+        val updated = FavoritesStore.remove(b, freqKHz)
+        replace(if (b == Band.AM) favoritesAm else favoritesFm, updated)
+    }
+
     fun isFavorite(freqKHz: Int): Boolean = favorites().contains(freqKHz)
 
     // ---- recon: exportar snapshot ----
