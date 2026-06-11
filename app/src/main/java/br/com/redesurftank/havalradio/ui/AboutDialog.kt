@@ -1,18 +1,22 @@
 package br.com.redesurftank.havalradio.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import br.com.redesurftank.havalradio.data.SettingsStore
 import br.com.redesurftank.havalradio.update.UpdateManager
 
 @Composable
@@ -30,6 +34,19 @@ fun AboutDialog(onDismiss: () -> Unit) {
         text = {
             Column {
                 Text("Versão atual: ${UpdateManager.currentVersion}")
+
+                Spacer(Modifier.height(8.dp))
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text("Abrir ao ligar o carro", modifier = Modifier.weight(1f))
+                    Switch(
+                        checked = SettingsStore.launchOnBoot.value,
+                        onCheckedChange = { SettingsStore.setLaunchOnBoot(it) },
+                    )
+                }
+
                 if (message != null) {
                     Spacer(Modifier.height(10.dp))
                     Text(message, color = MaterialTheme.colorScheme.secondary)

@@ -4,6 +4,7 @@ import android.app.Application
 import br.com.redesurftank.havalradio.data.AccentStore
 import br.com.redesurftank.havalradio.data.FavoritesStore
 import br.com.redesurftank.havalradio.data.MediaCenterControl
+import br.com.redesurftank.havalradio.data.SettingsStore
 import br.com.redesurftank.havalradio.data.ThemeStore
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
@@ -16,5 +17,6 @@ class App : Application() {
         MediaCenterControl.init(this)
         ThemeStore.init(this)
         AccentStore.init(this)
+        SettingsStore.init(this)
     }
 }
