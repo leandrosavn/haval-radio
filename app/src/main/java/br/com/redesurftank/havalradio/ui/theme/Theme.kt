@@ -5,6 +5,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import br.com.redesurftank.havalradio.ui.UiKit
 
 private val DarkColors = darkColorScheme(
     primary = Accent,
@@ -18,8 +20,12 @@ private val DarkColors = darkColorScheme(
 
 private val LightColors = lightColorScheme(
     primary = Accent2,
-    onPrimary = OnAccent,
+    onPrimary = Color.White,
     secondary = Accent,
+    background = Color(0xFFF2F4F7),
+    surface = Color(0xFFFFFFFF),
+    onBackground = Color(0xFF131720),
+    onSurface = Color(0xFF131720),
 )
 
 @Composable
@@ -27,6 +33,8 @@ fun HavalRadioTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
+    // Mantém o UiKit (cores lidas como propriedades) em sincronia com o tema atual.
+    UiKit.dark = darkTheme
     MaterialTheme(
         colorScheme = if (darkTheme) DarkColors else LightColors,
         typography = AppTypography,

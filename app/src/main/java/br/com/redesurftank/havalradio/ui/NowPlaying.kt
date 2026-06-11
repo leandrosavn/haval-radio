@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SkipNext
@@ -64,7 +63,7 @@ fun NowPlaying(
     onTune: (Int) -> Unit,
     onSeek: (Int) -> Unit,
     onScan: () -> Unit,
-    onTogglePlay: () -> Unit,
+    onPlay: () -> Unit,
     onMute: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -119,7 +118,7 @@ fun NowPlaying(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RoundButton(Icons.Filled.SkipPrevious, "Anterior", 66) { onSeek(-1) }
-                PlayPauseButton(playing, onTogglePlay)
+                PlayButton(playing, onPlay)
                 MuteButton(muted, onMute)
                 RoundButton(Icons.Filled.SkipNext, "Próxima", 66) { onSeek(1) }
                 RoundButton(Icons.Filled.Search, "Buscar", 56) { onScan() }
@@ -146,11 +145,14 @@ private fun RoundButton(icon: ImageVector, desc: String, size: Int, onClick: () 
 }
 
 /**
- * Play/pause secundário. Como o rádio inicia em pause, fica destacado (cor de acento)
- * enquanto parado para deixar claro que precisa ser apertado ao menos uma vez.
+ * Botão "Tocar favorita". Não é um play/pause real: pausar o tuner é interno do mediacenter e
+ * inalcançável por um app de terceiro (escrever play_state é rejeitado). Este botão replica a
+ * tecla "próxima favorita" do volante (broadcast keyCode 517) — o mediacenter reconquista o foco
+ * de áudio e toca uma favorita. Fica destacado (acento) quando o rádio NÃO está tocando, para
+ * convidar o toque; cada toque avança para a próxima favorita. O liga/desliga do som é o Mute.
  */
 @Composable
-private fun PlayPauseButton(playing: Boolean, onClick: () -> Unit) {
+private fun PlayButton(playing: Boolean, onClick: () -> Unit) {
     Box(
         Modifier.size(66.dp).clip(CircleShape)
             .then(
@@ -165,8 +167,8 @@ private fun PlayPauseButton(playing: Boolean, onClick: () -> Unit) {
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            if (playing) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-            if (playing) "Pausar" else "Tocar",
+            Icons.Filled.PlayArrow,
+            "Tocar favorita",
             tint = if (playing) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.size(30.dp),
         )

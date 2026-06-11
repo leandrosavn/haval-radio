@@ -112,9 +112,14 @@ object RadioRepository {
         io.execute { VehicleClient.set(RadioKeys.CUR_CHANNEL_INFO, RadioCodec.tuneValue(freqKHz, b)) }
     }
 
-    fun togglePlay() = io.execute {
-        VehicleClient.set(RadioKeys.PLAY_STATE, if (playing.value) "0" else "1")
-    }
+    /**
+     * "Play": toca/avança para a próxima favorita do mediacenter, com foco de áudio (= som real).
+     *
+     * Recon 2026-06-11: escrever [RadioKeys.PLAY_STATE] é REJEITADO pelo veículo ("is not support")
+     * e só tunar não retoma o áudio (o foco é do mediacenter). [MediaCenterControl.playNextFavorite]
+     * replica a tecla "próxima favorita" do volante — o único caminho que faz o rádio tocar de fato.
+     */
+    fun play() = MediaCenterControl.playNextFavorite()
 
     fun setBand(target: Band) {
         if (target == band) return

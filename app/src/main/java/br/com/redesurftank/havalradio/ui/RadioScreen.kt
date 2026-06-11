@@ -68,7 +68,7 @@ fun RadioScreen() {
                     onTune = { RadioRepository.tune(it) },
                     onSeek = { RadioRepository.seek(it) },
                     onScan = { RadioRepository.startScan() },
-                    onTogglePlay = { RadioRepository.togglePlay() },
+                    onPlay = { RadioRepository.play() },
                     onMute = { RadioRepository.toggleMute() },
                     modifier = Modifier.weight(1f),
                 )

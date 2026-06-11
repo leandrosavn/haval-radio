@@ -5,10 +5,19 @@ import br.com.redesurftank.havalradio.data.Band
 
 /** Cores e helpers compartilhados da UI (paleta do protótipo). */
 object UiKit {
-    val Line = Color.White.copy(alpha = 0.07f)
-    val Line2 = Color.White.copy(alpha = 0.13f)
-    val Muted = Color(0xFF9099A8)
-    val Muted2 = Color(0xFF5F6776)
+    /**
+     * Tema atual, definido por HavalRadioTheme ANTES de compor o conteúdo. É um var simples (não
+     * snapshot) de propósito: a troca de tema já recompõe toda a árvore (o MaterialTheme muda de
+     * colorScheme), então as cores abaixo são relidas com o valor novo, sem o risco de "writing to
+     * state during composition".
+     */
+    var dark = true
+
+    // Bordas/textos secundários: alpha sobre branco no escuro, sobre preto no claro.
+    val Line get() = if (dark) Color.White.copy(alpha = 0.07f) else Color.Black.copy(alpha = 0.07f)
+    val Line2 get() = if (dark) Color.White.copy(alpha = 0.13f) else Color.Black.copy(alpha = 0.12f)
+    val Muted get() = if (dark) Color(0xFF9099A8) else Color(0xFF5B6573)
+    val Muted2 get() = if (dark) Color(0xFF5F6776) else Color(0xFF99A1AE)
 
     private val LogoColors = listOf(
         Color(0xFFFF6B6B), Color(0xFFFFB13C), Color(0xFF7AA2FF), Color(0xFFFF7AB0),

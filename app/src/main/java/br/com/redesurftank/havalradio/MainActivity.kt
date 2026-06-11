@@ -4,7 +4,9 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import br.com.redesurftank.havalradio.data.RadioRepository
+import br.com.redesurftank.havalradio.data.ThemeStore
 import br.com.redesurftank.havalradio.ui.RadioScreen
 import br.com.redesurftank.havalradio.ui.theme.HavalRadioTheme
 import rikka.shizuku.Shizuku
@@ -20,7 +22,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Shizuku.addRequestPermissionResultListener(permListener)
-        setContent { HavalRadioTheme { RadioScreen() } }
+        setContent {
+            val dark = when (ThemeStore.mode.value) {
+                ThemeStore.Mode.DARK -> true
+                ThemeStore.Mode.LIGHT -> false
+                ThemeStore.Mode.SYSTEM -> isSystemInDarkTheme()
+            }
+            HavalRadioTheme(darkTheme = dark) { RadioScreen() }
+        }
         requestShizukuThenConnect()
     }
 
