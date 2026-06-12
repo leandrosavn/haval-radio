@@ -33,6 +33,7 @@ object RadioRepository {
     val searchProgress = mutableStateOf(0)
     val volume = mutableStateOf(0)
     val volumeMax = mutableStateOf(30)
+    val muted = mutableStateOf(false)
     val outsideTemp = mutableStateOf<Float?>(null)
     val insideTemp = mutableStateOf<Float?>(null)
     val favoritesFm = mutableStateListOf<Int>()
@@ -106,6 +107,7 @@ object RadioRepository {
             RadioKeys.AM_VALID -> replace(foundAm, RadioCodec.parseStationList(value))
             RadioKeys.MEDIA_VOLUME -> value?.trim()?.toIntOrNull()?.let { volume.value = it }
             RadioKeys.MEDIA_VOLUME_RANGE -> parseMax(value)?.let { volumeMax.value = it }
+            RadioKeys.MEDIA_MUTE -> muted.value = value?.trim() == "1"
             RadioKeys.OUTSIDE_TEMP -> outsideTemp.value = parseTemp(value)
             RadioKeys.INSIDE_TEMP -> insideTemp.value = parseTemp(value)
         }
@@ -153,14 +155,11 @@ object RadioRepository {
         io.execute { VehicleClient.set(RadioKeys.MEDIA_VOLUME, clamped.toString()) }
     }
 
-    private var volumeBeforeMute = 0
+    /** Mute nativo (media_mute_state 0/1) — não mexe no volume, só silencia. */
     fun toggleMute() {
-        if (volume.value > 0) {
-            volumeBeforeMute = volume.value
-            setVolume(0)
-        } else {
-            setVolume(if (volumeBeforeMute > 0) volumeBeforeMute else (volumeMax.value / 3).coerceAtLeast(1))
-        }
+        val target = !muted.value
+        muted.value = target // otimista; o listener confirma
+        io.execute { VehicleClient.set(RadioKeys.MEDIA_MUTE, if (target) "1" else "0") }
     }
 
     /** Alterna a estação atual nos favoritos locais (o veículo não persiste favoritos de 3os). */

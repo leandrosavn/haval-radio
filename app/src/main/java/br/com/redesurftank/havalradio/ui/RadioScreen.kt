@@ -35,7 +35,7 @@ fun RadioScreen() {
     val favs = RadioRepository.favorites()
     val found = RadioRepository.found()
     val isFav = st != null && RadioRepository.isFavorite(st.freqKHz)
-    val muted = vol == 0
+    val muted = RadioRepository.muted.value
 
     var showAbout by remember { mutableStateOf(false) }
     var showEq by remember { mutableStateOf(false) }

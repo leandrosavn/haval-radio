@@ -19,6 +19,7 @@ object RadioKeys {
     // Volume de mídia (mesmo serviço Beantechs; já usado pelo Impulse)
     const val MEDIA_VOLUME = "sys.settings.audio.media_volume"
     const val MEDIA_VOLUME_RANGE = "sys.settings.audio.media_volume_range"
+    const val MEDIA_MUTE = "sys.settings.audio.media_mute_state"          // mute nativo (0/1)
 
     // Temperatura do veículo (chaves do Impulse/CarConstants; valor = float °C). Lidas pelo mesmo serviço.
     const val OUTSIDE_TEMP = "car.basic.outside_temp"
@@ -28,7 +29,7 @@ object RadioKeys {
     val ALL: List<String> = listOf(
         CUR_CHANNEL_INFO, PLAY_STATE, SEARCH_STATE, SEARCH_PROGRESS,
         FM_FAVORITES, AM_FAVORITES, FM_VALID, AM_VALID,
-        MEDIA_VOLUME, MEDIA_VOLUME_RANGE,
+        MEDIA_VOLUME, MEDIA_VOLUME_RANGE, MEDIA_MUTE,
         OUTSIDE_TEMP, INSIDE_TEMP,
     )
 }
