@@ -47,6 +47,18 @@ fun AboutDialog(onDismiss: () -> Unit) {
                     )
                 }
 
+                Spacer(Modifier.height(8.dp))
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text("Reservar rodapé (barra do Dock)", modifier = Modifier.weight(1f))
+                    Switch(
+                        checked = SettingsStore.reserveDockBar.value,
+                        onCheckedChange = { SettingsStore.setReserveDockBar(it) },
+                    )
+                }
+
                 if (message != null) {
                     Spacer(Modifier.height(10.dp))
                     Text(message, color = MaterialTheme.colorScheme.secondary)
