@@ -1,5 +1,6 @@
 package br.com.redesurftank.havalradio.ui
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +21,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.redesurftank.havalradio.data.DockBridge
 import br.com.redesurftank.havalradio.data.RadioRepository
+import br.com.redesurftank.havalradio.data.SettingsStore
 import br.com.redesurftank.havalradio.update.UpdateManager
 
 @Composable
@@ -41,9 +44,15 @@ fun RadioScreen() {
     var showEq by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf(false) }
 
+    // Reserva o rodapé p/ a barra inferior do Haval Dock (overlay) não cobrir os controles.
+    // Dinâmico: segue a altura que o dock transmite (0 sem barra, 22 só a alça, 84 barra cheia),
+    // com animação suave. Só vale se a opção estiver ligada em Sobre.
+    val target = if (SettingsStore.reserveDockBar.value) DockBridge.barHeightDp.value.dp else 0.dp
+    val dockReserve by animateDpAsState(targetValue = target, label = "dockReserve")
+
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         // O SO desenha a barra de status na esquerda (~96px); o app começa depois dela.
-        Column(Modifier.fillMaxSize().padding(start = 28.dp, top = 16.dp, end = 20.dp, bottom = 16.dp)) {
+        Column(Modifier.fillMaxSize().padding(start = 28.dp, top = 16.dp, end = 20.dp, bottom = 16.dp + dockReserve)) {
 
             // topbar: FM/AM + pílulas (Sinal não existe na central; só Estéreo é real) + versão à direita
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {

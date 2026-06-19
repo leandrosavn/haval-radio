@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import br.com.redesurftank.havalradio.data.DockBridge
 import br.com.redesurftank.havalradio.data.RadioRepository
 import br.com.redesurftank.havalradio.data.ThemeStore
 import br.com.redesurftank.havalradio.ui.RadioScreen
@@ -31,6 +32,13 @@ class MainActivity : ComponentActivity() {
             HavalRadioTheme(darkTheme = dark) { RadioScreen() }
         }
         requestShizukuThenConnect()
+        DockBridge.ensureRegistered(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // ressincroniza com o dock ao voltar pro app (ele pode ter mudado de estado enquanto fora)
+        DockBridge.requestState(this)
     }
 
     private fun requestShizukuThenConnect() = runCatching {
