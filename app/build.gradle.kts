@@ -12,8 +12,8 @@ android {
         applicationId = "br.com.redesurftank.havalradio"
         minSdk = 28
         targetSdk = 28
-        versionCode = 26
-        versionName = "1.4.4"
+        versionCode = 27
+        versionName = "1.4.5"
     }
 
     signingConfigs {
