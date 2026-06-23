@@ -59,21 +59,32 @@ object RadioRepository {
     fun start() {
         // Favoritos são locais (o veículo nunca os publica — ver [FavoritesStore]).
         main.post { loadFavorites() }
+        // Relê o snapshot a cada (re)conexão — ex.: Shizuku/serviço sobe depois do app no boot, ou o
+        // binder morre e reconecta. Adicionado 1x (process-scoped, como este object).
+        if (!connListenerAdded) {
+            connListenerAdded = true
+            VehicleClient.addConnectionListener { onVehicleConnected() }
+        }
+        // O listener é LEMBRADO pelo VehicleClient e re-registrado em toda reconexão (idempotente).
+        VehicleClient.registerListener(RadioKeys.ALL, listener)
         val ok = VehicleClient.ensureConnected()
         Log.i(RECON_TAG, "conectado=$ok")
-        main.post { connected.value = ok }
-        if (!ok) return
+        if (ok) onVehicleConnected() else main.post { connected.value = false }
+    }
+
+    /** Lê o estado inicial do veículo. Roda a cada (re)conexão; chamado fora da main thread. */
+    private fun onVehicleConnected() {
+        main.post { connected.value = true }
         RadioKeys.ALL.forEach { k ->
             val v = VehicleClient.getData(k)
             Log.i(RECON_TAG, "INIT $k = $v")
             if (v != null) main.post { apply(k, v) }
         }
-        VehicleClient.registerListener(RadioKeys.ALL, listener)
-
         // Auto-play: ao abrir o app, se o rádio NÃO estiver tocando, dispara a próxima favorita
         // (único caminho que reconquista o foco de áudio — ver [MediaCenterControl]). Roda uma vez
-        // por sessão; o post entra DEPOIS dos apply() acima (mesmo handler, FIFO), então
-        // playing.value já reflete o estado inicial lido do veículo.
+        // por sessão (guard), então uma reconexão no meio do uso NÃO rouba o foco de novo; o post
+        // entra DEPOIS dos apply() acima (mesmo handler, FIFO), então playing.value já reflete o
+        // estado inicial lido do veículo.
         main.post {
             if (!autoPlayChecked) {
                 autoPlayChecked = true
@@ -83,6 +94,7 @@ object RadioRepository {
     }
 
     @Volatile private var autoPlayChecked = false
+    @Volatile private var connListenerAdded = false
 
     private fun loadFavorites() {
         replace(favoritesFm, FavoritesStore.load(Band.FM))
