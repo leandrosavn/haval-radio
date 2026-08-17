@@ -37,6 +37,12 @@
             </intent-filter>
         </receiver>
 
+        <!-- Pedido de favoritos do Haval Dock (broadcast explícito; acorda o app se preciso) -->
+        <receiver
+            android:name=".data.FavoritesRequestReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <!-- Shizuku provider -->
         <provider
             android:name="rikka.shizuku.ShizukuProvider"

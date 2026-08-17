@@ -37,6 +37,7 @@ object FavoritesStore {
 
     private fun save(band: Band, freqs: List<Int>) {
         prefs().edit().putString(key(band), freqs.joinToString(",")).apply()
+        FavoritesBridge.publish(appCtx)   // avisa o dock (botões de favorita na barra)
     }
 
     /** Alterna o favorito; retorna a nova lista (ordem preservada, novos no fim). */
